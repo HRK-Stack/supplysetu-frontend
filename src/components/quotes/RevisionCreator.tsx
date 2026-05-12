@@ -39,7 +39,7 @@ import ProductSearch from "@/components/quotes/ProductSearch";
 
 import { useAuth } from "@/hooks/useAuth";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 import type { Product } from "@/types/product";
 import { AxiosError } from "axios";
 
@@ -110,15 +110,16 @@ export default function RevisionCreator({
             item.product_id,
 
           product_name:
-            item.product_name,
+            item.product_id,
 
-          sku: item.sku,
+          sku: item.product_id,
 
           quantity:
             item.quantity,
 
           final_price_with_gst:
-            item.final_price_with_gst,
+            item.pricing_snapshot
+              .final_price_with_gst,
 
           /*
             ===================================
@@ -127,8 +128,8 @@ export default function RevisionCreator({
             ===================================
           */
           override_price:
-            item.override_price ||
-            "",
+            item.pricing_snapshot
+              .override_price || "",
         }),
       ) || [],
     );
@@ -532,7 +533,8 @@ export default function RevisionCreator({
 
                 <ProductSearch
                   selectedProductId={
-                    selectedProduct?.id
+                    selectedProduct?.id ??
+                    null
                   }
                   onSelect={
                     setSelectedProduct

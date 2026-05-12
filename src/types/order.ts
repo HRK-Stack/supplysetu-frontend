@@ -15,14 +15,20 @@ export interface OrderItem {
   tenant_id: UUID;
   order_id: UUID;
   product_id: UUID;
-  quantity: number;          // positive integer
-  pricing_snapshot: PricingSnapshot; // copied verbatim from QuoteItem — never repriced
-  created_at: ISODateString;
-  updated_at: ISODateString;
-  deleted_at: ISODateString | null;
+  quantity: number;
+  product_name?: string;
+  hsn_code?: string;
+  pricing_snapshot:
+    PricingSnapshot;
+  created_at:
+    ISODateString;
+  updated_at:
+    ISODateString;
+  deleted_at:
+    ISODateString | null;
   created_by: UUID;
-  updated_by: UUID | null;
-  
+  updated_by:
+    UUID | null;
 }
 
 // ─── Order ─────────────────────────────────────────────────────────────────
@@ -34,19 +40,41 @@ export interface Order {
   quote_revision_id: UUID;
   dealer_id: UUID;
   sales_rep_id: UUID;
-  ship_to_address_id: UUID | null;
+  ship_to_address_id:
+    UUID | null;
+  order_number?: string;
+  quote_number?: string;
+  dealer_name?: string;
+  dealer_gstin?: string | null;
+  sales_rep_name?: string;
+  ship_to_address?: {
+    id: UUID;
+    label?: string | null;
+    address_line1?: string | null;
+    address_line2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    pincode?: string | null;
+    phone?: string | null;
+  } | null;
   status: OrderStatus;
-  export_status: ExportStatus;
-  export_reference: string | null; // Tally confirmation code or "ERR:<reason>"
-  exported_at: ISODateString | null;
+  export_status:
+    ExportStatus;
+  export_reference:
+    string | null;
+  exported_at:
+    ISODateString | null;
   version: number;
-  created_at: ISODateString;
-  updated_at: ISODateString;
-  deleted_at: ISODateString | null;
+  created_at:
+    ISODateString;
+  updated_at:
+    ISODateString;
+  deleted_at:
+    ISODateString | null;
   created_by: UUID;
-  updated_by: UUID | null;
-  items?: OrderItem[];       // populated on detail endpoint
-  
+  updated_by:
+    UUID | null;
+  items?: OrderItem[];
 }
 
 // ─── Request schemas ───────────────────────────────────────────────────────

@@ -206,15 +206,18 @@ export default function DealerAddressForm({
                 "Address data missing",
             );
             }
-        if (mode === "edit") {
+        if (
+            mode === "edit" &&
+            address
+          ) {
             const response =
-            await api.patch(
+              await api.patch(
                 `/dealers/${dealerId}/addresses/${address.id}`,
                 payload,
-            );
+              );
 
             return response.data;
-        }
+          }
 
         const response =
             await api.post(

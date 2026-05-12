@@ -61,15 +61,26 @@ export interface Quote {
   tenant_id: UUID;
   dealer_id: UUID;
   sales_rep_id: UUID;
-  current_revision_id: UUID | null;
+  quote_id?: string;
+  dealer_name?: string;
+  sales_rep_name?: string;
+  dealer_credit_limit?: number;
+  dealer_outstanding_balance?: number;
+  current_revision_id:
+    UUID | null;
   status: QuoteStatus;
   version: number;
-  created_at: ISODateString;
-  updated_at: ISODateString;
-  deleted_at: ISODateString | null;
+  created_at:
+    ISODateString;
+  updated_at:
+    ISODateString;
+  deleted_at:
+    ISODateString | null;
   created_by: UUID;
-  updated_by: UUID | null;
-  current_revision?: QuoteRevision; // populated on detail endpoint
+  updated_by:
+    UUID | null;
+  current_revision?:
+    QuoteRevision;
 }
 
 // ─── Request schemas ───────────────────────────────────────────────────────

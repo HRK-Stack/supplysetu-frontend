@@ -391,7 +391,7 @@ export default function DealerForm({
               value={watch(
                 "territory_id",
               )}
-              onValueChange={(
+              onChange={(
                 value,
               ) =>
                 setValue(
@@ -469,7 +469,7 @@ export default function DealerForm({
         <div className="flex flex-col gap-3 border-t border-[var(--border)] pt-6 sm:flex-row sm:justify-end">
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             onClick={() =>
               router.push(
                 "/dealers",

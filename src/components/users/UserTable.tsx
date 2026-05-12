@@ -29,7 +29,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 
 import type { User } from "@/types/user";
-import { formatDate } from "@/lib/date";
+import { formatDate } from "@/lib/format";
 
 interface UserTableProps {
   users: User[];

@@ -13,7 +13,7 @@ import { Card } from "@/components/ui/Card";
 
 import PricingBreakdown from "@/components/quotes/PricingBreakdown";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 import type {
   OrderItem,
 } from "@/types/order";
@@ -39,7 +39,11 @@ export default function OrderItemList({
         item: OrderItem,
         ) =>
         total +
-        item.line_total,
+        (
+          item.pricing_snapshot
+            ?.final_price_with_gst ||
+          0
+        ) * item.quantity,
         0,
     );
 
@@ -148,7 +152,8 @@ export default function OrderItemList({
                       <p className="mt-1 font-semibold text-[var(--text-primary)]">
 
                         {formatPaise(
-                          item.final_unit_price,
+                          item.pricing_snapshot
+                            .final_unit_price
                         )}
                       </p>
                     </div>
@@ -163,7 +168,8 @@ export default function OrderItemList({
                       <p className="mt-1 font-semibold text-[var(--text-primary)]">
 
                         {formatPaise(
-                          item.final_price_with_gst,
+                          item.pricing_snapshot
+                            .final_price_with_gst
                         )}
                       </p>
                     </div>
@@ -181,7 +187,11 @@ export default function OrderItemList({
                   <h2 className="mt-2 text-3xl font-bold text-[var(--status-success-text)]">
 
                     {formatPaise(
-                      item.line_total,
+                      (
+                        item.pricing_snapshot
+                          .final_price_with_gst *
+                        item.quantity
+                      )
                     )}
                   </h2>
                 </div>

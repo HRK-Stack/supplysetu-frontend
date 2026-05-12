@@ -9,8 +9,7 @@
   ===================================
 */
 
-import { formatDate } from "@/lib/date";
-import { formatPaise } from "@/lib/money";
+import { formatDate, formatPaise } from "@/lib/format";
 
 import { Card } from "@/components/ui/Card";
 import type { Order } from "@/types/order";
@@ -262,7 +261,26 @@ export default function OrderTable({
                     <td className="px-5 py-5 text-right font-semibold text-[var(--text-primary)]">
 
                       {formatPaise(
-                        order.total,
+                        order.items?.reduce(
+                          (
+                            total,
+                            item,
+                          ) => {
+                            return (
+                              total +
+                              (
+                                (
+                                  item
+                                    .pricing_snapshot
+                                    ?.final_price_with_gst ||
+                                  0
+                                ) * item.quantity
+                              )
+                            );
+                          },
+
+                          0,
+                        ) || 0,
                       )}
                     </td>
                   </tr>

@@ -9,7 +9,7 @@
 
 import { Card } from "@/components/ui/Card";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 import type { QuoteItem } from "@/types/quote";
 
 interface QuoteItemListProps {
@@ -131,7 +131,7 @@ export default function QuoteItemList({
                       <div>
                         <h3 className="font-semibold text-[var(--text-primary)]">
                           {
-                            item.product_name
+                            item.product_id
                           }
                         </h3>
 
@@ -144,7 +144,7 @@ export default function QuoteItemList({
                           <span className="rounded-lg bg-[var(--card)] px-3 py-1 font-mono text-xs text-[var(--text-primary)]">
                             HSN{" "}
                             {
-                              item.hsn_code
+                              item.pricing_snapshot.hsn_code
                             }
                           </span>
 
@@ -168,7 +168,9 @@ export default function QuoteItemList({
 
                     <h2 className="mt-1 text-2xl font-bold text-[var(--navy)]">
                       {formatPaise(
-                        item.line_total,
+                        item.pricing_snapshot
+                          .final_price_with_gst *
+                        item.quantity
                       )}
                     </h2>
                   </div>

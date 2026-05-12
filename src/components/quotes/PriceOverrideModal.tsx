@@ -31,7 +31,7 @@ import { Textarea } from "@/components/ui/Textarea";
 
 import { useAuth } from "@/hooks/useAuth";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 
 interface PriceOverrideModalProps {
   open: boolean;

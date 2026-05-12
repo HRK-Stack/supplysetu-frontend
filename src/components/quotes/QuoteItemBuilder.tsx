@@ -29,7 +29,7 @@ import PricingPreview from "@/components/quotes/PricingPreview";
 
 import { useAuth } from "@/hooks/useAuth";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 import type { Product } from "@/types/product";
 import type { PricingSnapshot } from "@/types/pricing";
 
@@ -85,9 +85,19 @@ export default function QuoteItemBuilder({
     Live pricing preview
     ===================================
   */
+
+  
   const pricingMutation =
     useMutation({
       mutationFn: async () => {
+        if (
+          !selectedProduct
+        ) {
+          throw new Error(
+            "Product not selected",
+          );
+        }
+
         const response =
           await api.post<{
             data: PricingSnapshot & {
@@ -266,7 +276,8 @@ export default function QuoteItemBuilder({
 
         <ProductSearch
           selectedProductId={
-            selectedProduct?.id
+            selectedProduct?.id ||
+            null
           }
           onSelect={
             setSelectedProduct

@@ -20,7 +20,7 @@ import {
 
 import { Card } from "@/components/ui/Card";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 
 interface DealerInfoPanelProps {
   dealer: {

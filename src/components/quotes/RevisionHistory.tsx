@@ -23,10 +23,10 @@ import {
 
 import type {
   QuoteRevision,
-  QuoteRevisionItem,
+  QuoteItem,
 } from "@/types/quote";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 
 import api from "@/lib/api";
 
@@ -228,7 +228,7 @@ export default function RevisionHistory({
 
                           {revision.items?.map(
                             (
-                              item: QuoteRevisionItem,
+                              item: QuoteItem,
                             ) => (
                               <div
                                 key={
@@ -240,16 +240,15 @@ export default function RevisionHistory({
 
                                   <div>
                                     <h4 className="font-medium text-[var(--text-primary)]">
-                                      {
-                                        item.product_name
-                                      }
+                                      {item.product_id}
                                     </h4>
 
                                     <div className="mt-2 flex items-center gap-2">
                                       <span className="rounded-lg bg-[var(--table-header-bg)] px-2 py-1 font-mono text-xs text-[var(--text-primary)]">
                                         HSN{" "}
                                         {
-                                          item.hsn_code
+                                          item.pricing_snapshot
+                                            .hsn_code
                                         }
                                       </span>
 
@@ -269,7 +268,8 @@ export default function RevisionHistory({
 
                                     <p className="mt-1 font-semibold text-[var(--navy)]">
                                       {formatPaise(
-                                        item.final_price_with_gst,
+                                        item.pricing_snapshot
+                                          .final_price_with_gst,
                                     )}
                                     </p>
                                   </div>

@@ -79,7 +79,9 @@ export default function QuoteActions({
   */
   const validUntil =
     new Date(
-      quote.valid_until,
+      quote.current_revision
+        ?.valid_until ||
+        quote.created_at,
     );
 
   const isExpired =

@@ -18,7 +18,7 @@ import {
 
 import { Card } from "@/components/ui/Card";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 import type { Product } from "@/types/product";
 import type { ReactNode } from "react";
 

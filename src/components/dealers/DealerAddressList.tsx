@@ -20,13 +20,13 @@ interface DealerAddress {
 
   label?: string | null;
 
-  address_line_1?: string | null;
-  address_line_2?: string | null;
+  address_line1?: string | null;
+  address_line2?: string | null;
 
   city?: string | null;
   state?: string | null;
 
-  postal_code?: string | null;
+  pincode?: string | null;
 
   phone?: string | null;
 
@@ -130,11 +130,11 @@ export default function DealerAddressList({
                       {/* ✅ CHANGE:
                           nullable-safe rendering */}
 
-                      {address.address_line_1 ||
+                      {address.address_line1 ||
                         "-"}
 
-                      {address.address_line_2 &&
-                        `, ${address.address_line_2}`}
+                      {address.address_line2 &&
+                        `, ${address.address_line2}`}
 
                       {address.city &&
                         `, ${address.city}`}
@@ -142,8 +142,8 @@ export default function DealerAddressList({
                       {address.state &&
                         `, ${address.state}`}
 
-                      {address.postal_code &&
-                        ` - ${address.postal_code}`}
+                      {address.pincode &&
+                        ` - ${address.pincode}`}
                     </p>
                   </div>
 

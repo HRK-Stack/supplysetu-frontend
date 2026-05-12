@@ -27,7 +27,7 @@ import { Card } from "@/components/ui/Card";
 
 import { useAuth } from "@/hooks/useAuth";
 
-import { formatDate } from "@/lib/date";
+import { formatDate } from "@/lib/format";
 import type { Order } from "@/types/order";
 
 interface OrderHeaderProps {

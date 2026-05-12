@@ -28,7 +28,7 @@ import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 import type { Dealer } from "@/types/dealer";
 import type { DealerAddress } from "@/types/dealer";
 
@@ -346,7 +346,7 @@ export default function DealerSelector({
             shipToAddressId ||
             ""
           }
-          onValueChange={(
+          onChange={(
             value,
           ) =>
             onShipToAddressChange(

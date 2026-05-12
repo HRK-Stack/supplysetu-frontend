@@ -19,6 +19,7 @@ import {
 
 import {
   useForm,
+  SubmitHandler,
 } from "react-hook-form";
 
 import {
@@ -49,20 +50,20 @@ const formSchema =
         "Name is required",
       ),
 
-    adjustment_pct:
-        z.coerce
-            .number({
-            invalid_type_error:
-                "Enter valid percentage",
-            })
-            .min(
-            -100,
-            "Minimum allowed is -100%",
-            )
-            .max(
-            100,
-            "Maximum allowed is 100%",
-            ),
+    adjustment_pct: z.preprocess(
+      (value) =>
+        Number(value),
+
+      z.number()
+        .min(
+          -100,
+          "Minimum allowed is -100%",
+        )
+        .max(
+          100,
+          "Maximum allowed is 100%",
+        ),
+    ),
   });
 
 type FormValues =
@@ -112,7 +113,7 @@ export default function TerritoryForm({
       errors,
       isSubmitting,
     },
-  } = useForm<FormValues>({
+  } = useForm({
     resolver:
       zodResolver(
         formSchema,
@@ -138,10 +139,9 @@ export default function TerritoryForm({
           territory.name,
 
         adjustment_pct:
-            toBasisPoints(
-                values.adjustment_pct,
-            ),
-      });
+          territory.adjustment_pct /
+          100,
+        });
     } else {
       reset({
         name: "",
@@ -168,28 +168,21 @@ export default function TerritoryForm({
       mutationFn: async (
         values: FormValues,
       ) => {
-        /*
-          ===================================
-          FE-036 CHANGE:
-          Convert percentage
-          to basis points
-          ===================================
-        */
-        return api.post<
-            TerritoryMutationResponse
-        >(
-          "/territories",
-          {
-            name:
-              values.name,
+        const response =
+          await api.post<TerritoryMutationResponse>(
+            "/territories",
+            {
+              name: values.name,
 
-            adjustment_pct:
-              Math.round(
-                values.adjustment_pct *
+              adjustment_pct:
+                Math.round(
+                  values.adjustment_pct *
                   100,
-              ),
-          },
-        );
+                ),
+            },
+          );
+
+        return response.data;
       },
 
       onSuccess: () => {
@@ -265,13 +258,12 @@ export default function TerritoryForm({
       },
     });
 
-  const onSubmit =
+  const onSubmit:
+    SubmitHandler<FormValues> =
     async (
-      values: FormValues,
+      values,
     ) => {
-      if (
-        isEditMode
-      ) {
+      if (isEditMode) {
         await updateMutation.mutateAsync(
           values,
         );

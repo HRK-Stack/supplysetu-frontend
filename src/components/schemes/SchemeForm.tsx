@@ -41,8 +41,8 @@ import { Input } from "@/components/ui/Input";
 
 import type { Scheme } from "@/types/scheme";
 
-const formSchema =
-  z.object({
+const formSchema =z
+  .object({
     name: z
       .string()
       .min(
@@ -50,17 +50,7 @@ const formSchema =
         "Name is required",
       ),
 
-    discount_pct:
-        z.coerce
-            .number()
-            .min(
-                0,
-                "Discount cannot be negative",
-            )
-            .max(
-                100,
-                "Discount cannot exceed 100%",
-            ),
+    discount_pct: z.number(),
 
     start_date:
         z.string()
@@ -101,10 +91,7 @@ const formSchema =
         },
     );
 
-type FormValues =
-  z.infer<
-    typeof formSchema
-  >;
+type FormValues = z.infer<typeof formSchema>;
 
   type LookupItem = {
   id: string;
@@ -215,10 +202,7 @@ export default function SchemeForm({
       isSubmitting,
     },
   } = useForm<FormValues>({
-    resolver:
-      zodResolver(
-        formSchema,
-      ),
+    resolver: zodResolver(formSchema),
 
     defaultValues: {
       name: "",
@@ -226,8 +210,7 @@ export default function SchemeForm({
       start_date: "",
       end_date: "",
       product_ids: [],
-      territory_ids:
-        [],
+      territory_ids: [],
       dealer_ids: [],
     },
   });
@@ -259,23 +242,23 @@ export default function SchemeForm({
             )[0],
 
         product_ids:
-            scheme
-            .applies_to
-            ?.products ??
-            [],
+          scheme
+          .applies_to
+          ?.product_ids ??
+          [],
 
         territory_ids:
             scheme
             .applies_to
-            ?.territories ??
+            ?.territory_ids ??
             [],
 
         dealer_ids:
             scheme
             .applies_to
-            ?.dealers ??
+            ?.dealer_ids ??
             [],
-        });
+          });
     } else {
         reset({
         name: "",
@@ -547,6 +530,9 @@ export default function SchemeForm({
 
               {...register(
                 "discount_pct",
+                {
+                  valueAsNumber: true,
+                },
               )}
             />
 

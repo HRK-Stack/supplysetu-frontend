@@ -16,7 +16,7 @@ import api from "@/lib/api";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import type { Dealer } from "@/types/dealer";
-import type { User } from "@/types/auth";
+import type { User } from "@/types/user";
 
 interface QuoteFiltersProps {
   status: string;
@@ -108,7 +108,7 @@ export default function QuoteFilters({
       canViewSalesRepFilter,
 
     queryFn: async () => {
-     const response =
+      const response =
         await api.get<{
             data: User[];
         }>(
@@ -138,7 +138,7 @@ export default function QuoteFilters({
         <Select
           label="Quote Status"
           value={status}
-          onValueChange={
+          onChange={
             onStatusChange
           }
           options={[
@@ -187,7 +187,7 @@ export default function QuoteFilters({
         <Select
           label="Dealer"
           value={dealerId}
-          onValueChange={
+          onChange={
             onDealerChange
           }
           options={[
@@ -221,7 +221,7 @@ export default function QuoteFilters({
             value={
               salesRepId
             }
-            onValueChange={
+            onChange={
               onSalesRepChange
             }
             options={[

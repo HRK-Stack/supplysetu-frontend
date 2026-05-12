@@ -171,7 +171,8 @@ export default function QuoteTable({
                   <span className="rounded-lg bg-[var(--table-header-bg)] px-3 py-1 text-xs font-semibold text-[var(--text-primary)]">
                     Rev{" "}
                     {
-                      quote.revision_count
+                      quote.current_revision
+                        ?.revision_number ?? 1
                     }
                   </span>
                 </td>

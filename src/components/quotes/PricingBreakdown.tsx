@@ -19,7 +19,7 @@ import {
 
 import { Card } from "@/components/ui/Card";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 
 import type {
   PricingSnapshot,
@@ -41,138 +41,164 @@ export default function PricingBreakdown({
     ===================================
   */
 
-  const pricingFlow = [
-    {
-      key: "base_price",
-      label: "Base Price",
-      value:
-        pricingSnapshot.base_price,
 
-      icon: Receipt,
+  interface PricingFlowItem {
+  key: string;
 
-      type: "base",
-    },
+  label: string;
 
-    {
-      key:
-        "territory_adjustment",
+  value:
+    | number
+    | null;
 
-      label:
-        "Territory Adjustment",
+  icon: React.ComponentType<{
+    className?: string;
+  }>;
 
-      value:
-        pricingSnapshot.territory_adjustment,
+  type:
+    | "base"
+    | "adjustment"
+    | "discount"
+    | "override"
+    | "final"
+    | "gst"
+    | "grand";
 
-      icon: Calculator,
+  isRate?: boolean;
+}
+  const pricingFlow:
+    PricingFlowItem[] = [
+      {
+        key: "base_price",
+        label: "Base Price",
+        value:
+          pricingSnapshot.base_price,
 
-      type: "adjustment",
-    },
+        icon: Receipt,
 
-    {
-      key:
-        "dealer_discount",
+        type: "base",
+      },
 
-      label:
-        "Dealer Discount",
+      {
+        key:
+          "territory_adjustment",
 
-      value:
-        pricingSnapshot.dealer_discount,
+        label:
+          "Territory Adjustment",
 
-      icon: Tag,
+        value:
+          pricingSnapshot.territory_adjustment,
 
-      type: "discount",
-    },
+        icon: Calculator,
 
-    {
-      key:
-        "volume_discount",
+        type: "adjustment",
+      },
 
-      label:
-        "Volume Discount",
+      {
+        key:
+          "dealer_discount",
 
-      value:
-        pricingSnapshot.volume_discount,
+        label:
+          "Dealer Discount",
 
-      icon: Tag,
+        value:
+          pricingSnapshot.dealer_discount,
 
-      type: "discount",
-    },
+        icon: Tag,
 
-    {
-      key:
-        "scheme_discount",
+        type: "discount",
+      },
 
-      label:
-        "Scheme Discount",
+      {
+        key:
+          "volume_discount",
 
-      value:
-        pricingSnapshot.scheme_discount,
+        label:
+          "Volume Discount",
 
-      icon: Tag,
+        value:
+          pricingSnapshot.volume_discount,
 
-      type: "discount",
-    },
+        icon: Tag,
 
-    {
-      key:
-        "override_price",
+        type: "discount",
+      },
 
-      label:
-        "Override Price",
+      {
+        key:
+          "scheme_discount",
 
-      value:
-        pricingSnapshot.override_price,
+        label:
+          "Scheme Discount",
 
-      icon: Calculator,
+        value:
+          pricingSnapshot.scheme_discount,
 
-      type: "override",
-    },
+        icon: Tag,
 
-    {
-      key:
-        "final_unit_price",
+        type: "discount",
+      },
 
-      label:
-        "Final Unit Price",
+      {
+        key:
+          "override_price",
 
-      value:
-        pricingSnapshot.final_unit_price,
+        label:
+          "Override Price",
 
-      icon: Receipt,
+        value:
+          pricingSnapshot.override_price,
 
-      type: "final",
-    },
+        icon: Calculator,
 
-    {
-      key: "gst_rate",
+        type: "override",
+      },
 
-      label: "GST Rate",
+      {
+        key:
+          "final_unit_price",
 
-      value:
-        pricingSnapshot.gst_rate,
+        label:
+          "Final Unit Price",
 
-      icon: BadgePercent,
+        value:
+          pricingSnapshot.final_unit_price,
 
-      type: "gst",
+        icon: Receipt,
 
-      isRate: true,
-    },
+        type: "final",
+      },
 
-    {
-      key:
-        "final_price_with_gst",
+      {
+        key: "gst_rate",
 
-      label:
-        "Final Price With GST",
+        label: "GST Rate",
 
-      value:
-        pricingSnapshot.final_price_with_gst,
+        value:
+          pricingSnapshot.gst_rate,
 
-      icon: Receipt,
+        icon: BadgePercent,
 
-      type: "grand",
-    },
-  ] as const;
+        type: "gst",
+
+        isRate: true,
+      },
+
+      {
+        key:
+          "final_price_with_gst",
+
+        label:
+          "Final Price With GST",
+
+        value:
+          pricingSnapshot.final_price_with_gst,
+
+        icon: Receipt,
+
+        type: "grand",
+      },
+    ];
 
   /*
     ===================================
@@ -182,12 +208,18 @@ export default function PricingBreakdown({
   */
 
   const appliedSchemeIds =
-    pricingSnapshot.applied_scheme_ids ??
-    [];
+    pricingSnapshot.applied_scheme_id
+      ? [
+          pricingSnapshot.applied_scheme_id,
+        ]
+      : [];
 
   const appliedSlabIds =
-    pricingSnapshot.applied_slab_ids ??
-    [];
+    pricingSnapshot.applied_slab_id
+      ? [
+          pricingSnapshot.applied_slab_id,
+        ]
+      : [];
 
   return (
     <Card className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 shadow-sm">

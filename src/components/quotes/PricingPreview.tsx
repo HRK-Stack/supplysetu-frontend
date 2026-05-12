@@ -9,7 +9,7 @@
 
 import { Card } from "@/components/ui/Card";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 import type { PricingSnapshot } from "@/types/pricing";
 
 interface PricingPreviewProps {
@@ -112,9 +112,11 @@ export default function PricingPreview({
                 {field.isRate
                   ? field.value
                   : formatPaise(
-                      field.value ||
-                        0,
-                    )}
+                    typeof field.value ===
+                      "number"
+                      ? field.value
+                      : 0,
+                  )}
               </p>
             </div>
           ),

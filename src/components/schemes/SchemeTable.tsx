@@ -19,7 +19,7 @@ import { Card } from "@/components/ui/Card";
 
 import type { Scheme } from "@/types/scheme";
 
-import { formatDate } from "@/lib/date";
+import { formatDate } from "@/lib/format";
 
 interface SchemeTableProps {
   schemes: Scheme[];
@@ -220,7 +220,7 @@ export default function SchemeTable({
 
                     <div className="flex flex-wrap gap-2">
 
-                      {(scheme.applies_to?.products
+                      {(scheme.applies_to?.product_ids
                           ?.length ?? 0) > 0 && (
                           <span className="rounded-full bg-[var(--status-info-bg)] px-3 py-1 text-xs font-semibold text-[var(--status-info-text)]">
 
@@ -228,7 +228,7 @@ export default function SchemeTable({
                         </span>
                       )}
 
-                      {(scheme.applies_to?.territories
+                      {(scheme.applies_to?.territory_ids
                             ?.length ?? 0) > 0 && (
                             <span className="rounded-full bg-[var(--status-warning-bg)] px-3 py-1 text-xs font-semibold text-[var(--status-warning-text)]">
 
@@ -238,7 +238,7 @@ export default function SchemeTable({
 
                       {scheme
                         .applies_to
-                        ?.dealers
+                        ?.dealer_ids
                         ?.length >
                         0 && (
                         <span className="rounded-full bg-[var(--status-success-bg)] px-3 py-1 text-xs font-semibold text-[var(--status-success-text)]">
@@ -252,11 +252,11 @@ export default function SchemeTable({
                           Empty arrays apply universally
                       =================================== */}
 
-                      {(scheme.applies_to?.products
+                      {(scheme.applies_to?.product_ids
                             ?.length ?? 0) === 0 &&
-                        (scheme.applies_to?.territories
+                        (scheme.applies_to?.territory_ids
                             ?.length ?? 0) === 0 &&
-                        (scheme.applies_to?.dealers
+                        (scheme.applies_to?.dealer_ids
                             ?.length ?? 0) === 0 && (
                           <span className="rounded-full bg-[var(--table-header-bg)] px-3 py-1 text-xs font-semibold text-[var(--text-primary)]">
 

@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 
 import type { Territory } from "@/types/territory";
-import { formatDate } from "@/lib/date";
+import { formatDate } from "@/lib/format";
 
 interface TerritoryTableProps {
   territories: Territory[];

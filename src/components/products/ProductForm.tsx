@@ -32,12 +32,12 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 
 const gstRates = [
-  "0",
-  "5",
-  "12",
-  "18",
-  "28",
-] as const;
+  0,
+  5,
+  12,
+  18,
+  28,
+] as const; 
 
 /*
   ===================================
@@ -81,13 +81,20 @@ const formSchema = z.object({
       "Base price cannot be negative",
     ),
 
-  gst_rate: z.enum(
-    gstRates,
-    {
-      required_error:
-        "Select GST rate",
-    },
-  ),
+  gst_rate: z
+    .number()
+    .refine(
+      (value) =>
+        gstRates.includes(
+          value as
+            (typeof gstRates)[number],
+        ),
+
+      {
+        message:
+          "Invalid GST rate",
+      },
+    ),
 
   /*
     ===================================
@@ -189,15 +196,8 @@ export default function ProductForm({
           : 0,
 
       gst_rate:
-        String(
-          initialData?.gst_rate ||
-            "18",
-        ) as
-          | "0"
-          | "5"
-          | "12"
-          | "18"
-          | "28",
+        initialData?.gst_rate ??
+        18,
 
       hsn_code:
         initialData?.hsn_code ||
@@ -415,15 +415,17 @@ export default function ProductForm({
 
           <Select
             label="GST Rate"
-            value={watch(
-              "gst_rate",
+            value={String(
+              watch("gst_rate"),
             )}
-            onValueChange={(
+            onChange={(
               value : string,
             ) =>
               setValue(
                 "gst_rate",
-                value as FormValues["gst_rate"],
+                Number(
+                  value,
+                ) as FormValues["gst_rate"],
                 {
                     shouldDirty: true,
                     shouldValidate: true,

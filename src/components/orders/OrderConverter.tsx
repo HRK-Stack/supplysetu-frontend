@@ -76,7 +76,11 @@ export default function OrderConverter({
             item: QuoteItem,
           ) =>
             total +
-            item.line_total,
+            (
+              item.pricing_snapshot
+                ?.final_price_with_gst ||
+              0
+            ) * item.quantity,
           0,
         ) || 0
       );

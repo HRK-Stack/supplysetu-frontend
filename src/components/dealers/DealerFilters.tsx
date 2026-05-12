@@ -74,7 +74,7 @@ export default function DealerFilters({
         <Select
           label="Status"
           value={status}
-          onValueChange={onStatusChange}
+          onChange={onStatusChange}
           options={[
             {
               label: "All Statuses",
@@ -94,7 +94,7 @@ export default function DealerFilters({
         <Select
           label="Territory"
           value={territoryId}
-          onValueChange={onTerritoryChange}
+          onChange={onTerritoryChange}
           options={[
             {
               label: "All Territories",

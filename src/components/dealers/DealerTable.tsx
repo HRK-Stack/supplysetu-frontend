@@ -108,7 +108,7 @@ export default function DealerTable({
                 <td className="px-5 py-4 text-sm text-[var(--text2)]">
                   {/* ✅ CHANGE:
                       Optional chaining prevents undefined errors */}
-                  {dealer.territory?.name || "—"}
+                  {dealer.territory_id || "—"}
                 </td>
 
                 <td className="px-5 py-4">
@@ -120,7 +120,7 @@ export default function DealerTable({
                       dealer.status ===
                       "ACTIVE"
                         ? "success"
-                        : "secondary"
+                        : "warning"
                     }
                   >
                     {dealer.status}

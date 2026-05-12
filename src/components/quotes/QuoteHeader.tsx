@@ -59,7 +59,9 @@ export default function QuoteHeader({
   */
   const validUntil =
     new Date(
-      quote.valid_until,
+      quote.current_revision
+        ?.valid_until ||
+        quote.created_at,
     );
 
   const today =

@@ -18,7 +18,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 
-import { formatDate } from "@/lib/date";
+import { formatDate } from "@/lib/format";
 
 interface QuoteExpiryBannerProps {
   validUntil: string;

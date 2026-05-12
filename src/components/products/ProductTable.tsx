@@ -9,7 +9,7 @@
 
 import Link from "next/link";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 import type { Product } from "@/types/product";
 
 interface ProductTableProps {

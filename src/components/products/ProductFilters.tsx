@@ -92,7 +92,7 @@ export default function ProductFilters({
         <Select
           label="GST Rate"
           value={gstRate}
-          onValueChange={
+          onChange={
             onGstRateChange
           }
           options={[

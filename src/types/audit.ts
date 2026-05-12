@@ -15,6 +15,7 @@ export interface AuditLog {
   readonly id: string;
   readonly tenant_id: string;
   readonly actor_user_id: string;
+  readonly actor_name?: string | null;
   readonly entity_type: string;
   readonly entity_id: string;
   readonly action: string;
