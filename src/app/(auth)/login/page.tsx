@@ -197,7 +197,7 @@ export default function LoginPage() {
         items-center justify-center
         overflow-hidden
 
-        bg-gradient-to-br
+        bg-linear-to-br
         from-[#0F1F3D]
         via-[#1A3260]
         to-[#0F1F3D]
@@ -300,7 +300,7 @@ export default function LoginPage() {
           {/* Header */}
           <div
             className="
-              bg-gradient-to-r
+              bg-linear-to-r
               from-[#0F1F3D]
               to-[#1A3260]
               px-8 py-8
@@ -486,7 +486,7 @@ export default function LoginPage() {
                 gap-2 overflow-hidden
                 rounded-lg py-3
 
-                bg-gradient-to-r
+                bg-linear-to-r
                 from-[#0F1F3D]
                 to-[#1A3260]
 
