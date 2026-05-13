@@ -2,7 +2,7 @@
 
 import React from "react";
 import type { Metadata } from "next";
-import "tailwindcss";
+import "@/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "SupplySetu",

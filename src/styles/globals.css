@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "./theme.css";
+
+html {
+  font-family: var(--font-body);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
