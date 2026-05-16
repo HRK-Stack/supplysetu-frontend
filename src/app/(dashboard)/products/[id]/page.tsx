@@ -27,7 +27,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 import ProductInfoPanel from "@/components/products/ProductInfoPanel";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 import type { Product } from "@/types/product";
 import type { VolumeDiscountSlab } from "@/types/product";
 import type { PaginatedResponse } from "@/types/common";
@@ -40,7 +40,7 @@ export default function ProductDetailPage() {
         ? params.id[0]
         : params.id;
 
-  const { user } = useAuth();
+  const { role } = useAuth();
 
   /*
     ===================================
@@ -108,17 +108,17 @@ export default function ProductDetailPage() {
     slabData?.data ?? [];
 
   const canEdit =
-    user?.role ===
+    role ===
       "ADMIN" ||
-    user?.role ===
+    role ===
       "MANAGER";
 
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="h-10 w-72 animate-pulse rounded-xl bg-[var(--table-header-bg)]" />
+        <div className="h-10 w-72 animate-pulse rounded-xl bg-(--table-header-bg)" />
 
-        <Card className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
+        <Card className="rounded-2xl border border-(--border) bg-(--card) p-6">
           <div className="space-y-4">
             {Array.from({
               length: 8,
@@ -126,7 +126,7 @@ export default function ProductDetailPage() {
               (_, index) => (
                 <div
                   key={index}
-                  className="h-5 animate-pulse rounded bg-[var(--table-header-bg)]"
+                  className="h-5 animate-pulse rounded bg-(--table-header-bg)"
                 />
               ),
             )}
@@ -138,20 +138,22 @@ export default function ProductDetailPage() {
 
   if (error || !product) {
     return (
-      <Card className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
+      <Card className="rounded-2xl border border-(--border) bg-(--card) p-6">
         <div className="space-y-3">
-          <h2 className="text-xl font-semibold text-[var(--status-danger-text)]">
+          <h2 className="text-xl font-semibold text-(--status-danger-text)">
             Failed to load
             product
           </h2>
 
-          <p className="text-sm text-[var(--text-secondary)]">
+          <p className="text-sm text-(--text-secondary)">
             Unable to fetch
             product details.
           </p>
-            <Button  href="/products" variant="secondary">
-              Back to Products
-            </Button>
+            <Link href="/products">
+              <Button variant="secondary">
+                Back to Products
+              </Button>
+            </Link>
         </div>
       </Card>
     );
@@ -168,18 +170,18 @@ export default function ProductDetailPage() {
         <div className="space-y-2">
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] transition-colors duration-200 hover:text-[var(--text-primary)]"
+            className="inline-flex items-center gap-2 text-sm text-(--text-secondary) transition-colors duration-200 hover:text-(--text-primary)"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Products
           </Link>
 
           <div>
-            <h1 className="font-[var(--font-heading)] text-3xl font-bold text-[var(--text-primary)]">
+            <h1 className="font-(--font-heading) text-3xl text-(--text-primary)">
               {product.name}
             </h1>
 
-            <p className="mt-1 text-sm text-[var(--text-secondary)]">
+            <p className="mt-1 text-sm text-(--text-secondary)">
               Product details,
               pricing, GST and
               discount slabs.
@@ -192,10 +194,12 @@ export default function ProductDetailPage() {
           ADMIN/MANAGER only
         */}
         {canEdit && (
-            <Button href={`/products/${product.id}/edit`}>
-              <Pencil className="h-4 w-4" />
-              Edit Product
-            </Button>
+            <Link href={`/products/${product.id}/edit`}>
+              <Button>
+                <Pencil className="h-4 w-4" />
+                Edit Product
+              </Button>
+            </Link>
         )}
       </div>
 
@@ -212,14 +216,14 @@ export default function ProductDetailPage() {
           Volume Discount Slabs
       =================================== */}
 
-      <Card className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm">
-        <div className="border-b border-[var(--table-border)] px-6 py-5">
-          <h2 className="font-[var(--font-heading)] text-xl font-semibold text-[var(--text-primary)]">
+      <Card className="overflow-hidden rounded-2xl border border-(--border) bg-(--card) shadow-sm">
+        <div className="border-b border-(--table-border) px-6 py-5">
+          <h2 className="text-xl font-semibold text-(--text-primary)">
             Volume Discount
             Slabs
           </h2>
 
-          <p className="mt-1 text-sm text-[var(--text-muted)]">
+          <p className="mt-1 text-sm text-(--text-muted)">
             Quantity-based
             pricing rules for
             bulk orders.
@@ -239,15 +243,15 @@ export default function ProductDetailPage() {
               (_, index) => (
                 <div
                   key={index}
-                  className="h-12 animate-pulse rounded-xl bg-[var(--table-header-bg)]"
+                  className="h-12 animate-pulse rounded-xl bg-(--table-header-bg)"
                 />
               ),
             )}
           </div>
         ) : slabsError ? (
             <div className="p-6">
-                <div className="rounded-2xl border border-[var(--status-danger-border)] bg-[var(--status-danger-bg)] p-4">
-                    <p className="text-sm text-[var(--status-danger-text)]">
+                <div className="rounded-2xl border border-(--status-danger-border) bg-(--status-danger-bg) p-4">
+                    <p className="text-sm text-(--status-danger-text)">
                         Failed to load
                         discount slabs.
                     </p>
@@ -259,7 +263,7 @@ export default function ProductDetailPage() {
             Empty slabs state
           */
           <div className="py-14 text-center">
-            <p className="text-sm text-[var(--text-muted)]">
+            <p className="text-sm text-(--text-muted)">
               No volume
               discount slabs
               configured.
@@ -273,21 +277,21 @@ export default function ProductDetailPage() {
                   Table Header
               =================================== */}
 
-              <thead className="bg-[var(--table-header-bg)]">
-                <tr className="border-b border-[var(--table-border)]">
-                  <th scope="col" className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+              <thead className="bg-(--table-header-bg)">
+                <tr className="border-b border-(--table-border)">
+                  <th scope="col" className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
                     Min Qty
                   </th>
 
-                  <th scope="col" className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                  <th scope="col" className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
                     Max Qty
                   </th>
 
-                  <th scope="col" className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                  <th scope="col" className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
                     Discount %
                   </th>
 
-                  <th scope="col" className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                  <th scope="col" className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
                     Price Override
                   </th>
                 </tr>
@@ -304,20 +308,20 @@ export default function ProductDetailPage() {
                   ) => (
                     <tr
                       key={slab.id}
-                      className="border-b border-[var(--table-border)]"
+                      className="border-b border-(--table-border)"
                     >
-                      <td className="px-5 py-4 text-[var(--text-primary)]">
+                      <td className="px-5 py-4 text-(--text-primary)">
                         {
                           slab.min_qty
                         }
                       </td>
 
-                      <td className="px-5 py-4 text-[var(--text-primary)]">
+                      <td className="px-5 py-4 text-(--text-primary)">
                         {slab.max_qty ||
                           "∞"}
                       </td>
 
-                      <td className="px-5 py-4 text-right font-medium text-[var(--status-success-text)]">
+                      <td className="px-5 py-4 text-right font-medium text-(--status-success-text)">
                         {(
                           slab.discount_pct /
                           100
@@ -327,7 +331,7 @@ export default function ProductDetailPage() {
                         %
                       </td>
 
-                      <td className="px-5 py-4 text-right font-medium tabular-nums text-[var(--text-primary)]">
+                      <td className="px-5 py-4 text-right font-medium tabular-nums text-(--text-primary)">
                         {slab.price_override
                           ? formatPaise(
                               slab.price_override,

@@ -42,7 +42,7 @@ interface UserListResponse {
 }
 
 export default function UserManagementPage() {
-  const { user } =
+  const { role } =
     useAuth();
 
   /*
@@ -91,7 +91,7 @@ export default function UserManagementPage() {
     ===================================
   */
   const isForbidden =
-    user?.role !==
+    role !==
     "ADMIN";
 
   /*
@@ -165,13 +165,13 @@ export default function UserManagementPage() {
   */
   if (isForbidden) {
     return (
-      <Card className="rounded-2xl border border-[var(--status-danger-border)] bg-[var(--card)] p-8">
+      <Card className="rounded-2xl border border-(--status-danger-border) bg-(--card) p-8">
 
-        <h2 className="text-2xl font-bold text-[var(--status-danger-text)]">
+        <h2 className="text-2xl font-bold text-(--status-danger-text)">
           Access Denied
         </h2>
 
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
+        <p className="mt-2 text-sm text-(--text-secondary)">
           Only ADMIN users
           can manage users.
         </p>
@@ -188,9 +188,9 @@ export default function UserManagementPage() {
     return (
       <div className="space-y-6">
 
-        <div className="h-28 animate-pulse rounded-2xl bg-[var(--table-header-bg)]" />
+        <div className="h-28 animate-pulse rounded-2xl bg-(--table-header-bg)" />
 
-        <div className="min-h-[500px] animate-pulse rounded-2xl bg-[var(--table-header-bg)]" />
+        <div className="min-h-125 animate-pulse rounded-2xl bg-(--table-header-bg)" />
       </div>
     );
   }
@@ -202,14 +202,14 @@ export default function UserManagementPage() {
   */
   if (error) {
     return (
-      <Card className="rounded-2xl border border-[var(--status-danger-border)] bg-[var(--card)] p-6">
+      <Card className="rounded-2xl border border-(--status-danger-border) bg-(--card) p-6">
 
-        <h2 className="text-xl font-semibold text-[var(--status-danger-text)]">
+        <h2 className="text-xl font-semibold text-(--status-danger-text)">
           Failed to load
           users
         </h2>
 
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
+        <p className="mt-2 text-sm text-(--text-secondary)">
           Unable to fetch
           user list.
         </p>
@@ -228,11 +228,11 @@ export default function UserManagementPage() {
 
         <div>
 
-          <h1 className="text-3xl font-bold text-[var(--text-primary)]">
+          <h1 className="text-3xl font-bold text-(--text-primary)">
             User Management
           </h1>
 
-          <p className="mt-1 text-sm text-[var(--text-secondary)]">
+          <p className="mt-1 text-sm text-(--text-secondary)">
             Manage system
             users, roles and
             access control.
@@ -260,7 +260,7 @@ export default function UserManagementPage() {
           Filters
       =================================== */}
 
-      <Card className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5">
+      <Card className="rounded-2xl border border-(--border) bg-(--card) p-5">
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
 
@@ -270,7 +270,7 @@ export default function UserManagementPage() {
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-[var(--text-primary)]">
+            <label className="mb-2 block text-sm font-medium text-(--text-primary)">
               Role
             </label>
 
@@ -289,7 +289,7 @@ export default function UserManagementPage() {
                 );
               }}
 
-              className="h-11 w-full rounded-xl border border-[var(--border)] bg-[var(--panel)] px-4 text-sm text-[var(--text-primary)] outline-none transition-all focus:border-[var(--status-info-border)]"
+              className="h-11 w-full rounded-xl border border-(--border) bg-(--panel) px-4 text-sm text-(--text-primary) outline-none transition-all focus:border-(--status-info-border)"
             >
               <option value="">
                 All Roles
@@ -315,7 +315,7 @@ export default function UserManagementPage() {
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-[var(--text-primary)]">
+            <label className="mb-2 block text-sm font-medium text-(--text-primary)">
               Status
             </label>
 
@@ -334,7 +334,7 @@ export default function UserManagementPage() {
                 );
               }}
 
-              className="h-11 w-full rounded-xl border border-[var(--border)] bg-[var(--panel)] px-4 text-sm text-[var(--text-primary)] outline-none transition-all focus:border-[var(--status-info-border)]"
+              className="h-11 w-full rounded-xl border border-(--border) bg-(--panel) px-4 text-sm text-(--text-primary) outline-none transition-all focus:border-(--status-info-border)"
             >
               <option value="">
                 All Status

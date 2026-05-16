@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { useDealer } from "@/hooks/useDealers";
 import { useAuth } from "@/hooks/useAuth";
 
-import { formatPaise } from "@/lib/money";
+import { formatPaise } from "@/lib/format";
 
 import DealerInfoPanel from "@/components/dealers/DealerInfoPanel";
 import DealerAddressList from "@/components/dealers/DealerAddressList";
@@ -26,22 +26,27 @@ export default function DealerDetailPage() {
       ? params.id
       : "";
 
-  const { user } = useAuth();
+  const { role } = useAuth();
 
   const {
-    dealer,
+    data,
     isLoading,
     error,
   } = useDealer(dealerId);
 
+  const dealer =
+    data?.success
+      ? data.data
+      : null;
+
   const canEdit =
-    user?.role === "ADMIN" ||
-    user?.role === "MANAGER";
+    role === "ADMIN" ||
+    role === "MANAGER";
 
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="h-10 w-64 animate-pulse rounded-xl bg-[var(--bg-card)]" />
+        <div className="h-10 w-64 animate-pulse rounded-xl bg-(--bg-card)" />
 
         <Card className="p-6">
           <div className="space-y-4">
@@ -50,7 +55,7 @@ export default function DealerDetailPage() {
             }).map((_, index) => (
               <div
                 key={index}
-                className="h-5 w-full animate-pulse rounded bg-[var(--bg-main)]"
+                className="h-5 w-full animate-pulse rounded bg-(--bg-main)"
               />
             ))}
           </div>
@@ -67,7 +72,7 @@ export default function DealerDetailPage() {
             Failed to load dealer
           </h2>
 
-          <p className="text-sm text-[var(--text-secondary)]">
+          <p className="text-sm text-(--text-secondary)">
             Unable to fetch dealer
             details.
           </p>
@@ -76,7 +81,7 @@ export default function DealerDetailPage() {
               kept Link wrapper pattern
               used consistently across project */}
           <Link href="/dealers">
-            <Button variant="outline">
+            <Button variant="secondary">
               Back to Dealers
             </Button>
           </Link>
@@ -92,18 +97,18 @@ export default function DealerDetailPage() {
         <div className="space-y-2">
           <Link
             href="/dealers"
-            className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] transition hover:text-[var(--text-primary)]"
+            className="inline-flex items-center gap-2 text-sm text-(--text-secondary) transition hover:text-(--text-primary)"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Dealers
           </Link>
 
           <div>
-            <h1 className="text-3xl font-bold text-[var(--text-primary)]">
+            <h1 className="text-3xl font-bold text-(--text-primary)">
               {dealer.name}
             </h1>
 
-            <p className="mt-1 text-sm text-[var(--text-secondary)]">
+            <p className="mt-1 text-sm text-(--text-secondary)">
               Dealer Details &
               Address Information
             </p>
@@ -125,15 +130,15 @@ export default function DealerDetailPage() {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* Credit Limit */}
-        <Card className="rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] p-5">
+        <Card className="rounded-2xl border border-(--border) bg-(--bg-card) p-5">
           {/* ✅ CHANGE:
               standardized variable names
               from --border-color → --border */}
-          <p className="text-sm text-[var(--text-secondary)]">
+          <p className="text-sm text-(--text-secondary)">
             Credit Limit
           </p>
 
-          <h3 className="mt-2 text-2xl font-bold text-[var(--text-primary)]">
+          <h3 className="mt-2 text-2xl font-bold text-(--text-primary)">
             {/* ✅ CHANGE:
                 safer nullable fallback */}
             {formatPaise(
@@ -143,8 +148,8 @@ export default function DealerDetailPage() {
         </Card>
 
         {/* Outstanding Balance */}
-        <Card className="rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] p-5">
-          <p className="text-sm text-[var(--text-secondary)]">
+        <Card className="rounded-2xl border border-(--border) bg-(--bg-card) p-5">
+          <p className="text-sm text-(--text-secondary)">
             Outstanding Balance
           </p>
 
@@ -155,18 +160,18 @@ export default function DealerDetailPage() {
             )}
           </h3>
 
-          <p className="mt-1 text-xs text-[var(--text-secondary)]">
+          <p className="mt-1 text-xs text-(--text-secondary)">
             Read-only field
           </p>
         </Card>
 
         {/* Dealer Discount */}
-        <Card className="rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] p-5">
-          <p className="text-sm text-[var(--text-secondary)]">
+        <Card className="rounded-2xl border border-(--border) bg-(--bg-card) p-5">
+          <p className="text-sm text-(--text-secondary)">
             Dealer Discount
           </p>
 
-          <h3 className="mt-2 text-2xl font-bold text-[var(--text-primary)]">
+          <h3 className="mt-2 text-2xl font-bold text-(--text-primary)">
             {/* ✅ CHANGE:
                 removed /100
                 because backend percentage storage

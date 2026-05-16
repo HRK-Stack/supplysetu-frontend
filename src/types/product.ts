@@ -54,3 +54,21 @@ export interface ProductListQueryParams {
   sort_by?: string;
   sort_order?: "asc" | "desc";
 }
+
+export interface VolumeDiscountSlab {
+  id: UUID;
+  tenant_id: UUID;
+
+  product_id: UUID;
+
+  min_qty: number;
+
+  max_qty: number | null;
+
+  discount_pct: number; // basis points
+
+  price_override: number | null; // paise
+
+  created_at: ISODateString;
+  updated_at: ISODateString;
+}

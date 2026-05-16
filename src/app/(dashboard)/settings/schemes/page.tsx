@@ -42,7 +42,7 @@ interface SchemeResponse {
 }
 
 export default function SchemeManagementPage() {
-  const { user } =
+  const { role } =
     useAuth();
 
   /*
@@ -97,7 +97,7 @@ export default function SchemeManagementPage() {
       "ADMIN",
       "MANAGER",
     ].includes(
-      user?.role ?? "",
+      role ?? "",
     );
 
   /*
@@ -156,13 +156,13 @@ export default function SchemeManagementPage() {
   */
   if (isForbidden) {
     return (
-      <Card className="rounded-2xl border border-[var(--status-danger-border)] bg-[var(--card)] p-8">
+      <Card className="rounded-2xl border border-(--status-danger-border) bg-(--card) p-8">
 
-        <h2 className="text-2xl font-bold text-[var(--status-danger-text)]">
+        <h2 className="text-2xl font-bold text-(--status-danger-text)">
           Access Denied
         </h2>
 
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
+        <p className="mt-2 text-sm text-(--text-secondary)">
           Only ADMIN and
           MANAGER users can
           manage schemes.
@@ -180,9 +180,9 @@ export default function SchemeManagementPage() {
     return (
       <div className="space-y-6">
 
-        <div className="h-28 animate-pulse rounded-2xl bg-[var(--table-header-bg)]" />
+        <div className="h-28 animate-pulse rounded-2xl bg-(--table-header-bg)" />
 
-        <div className="h-[500px] animate-pulse rounded-2xl bg-[var(--table-header-bg)]" />
+        <div className="h-125 animate-pulse rounded-2xl bg-(--table-header-bg)" />
       </div>
     );
   }
@@ -194,14 +194,14 @@ export default function SchemeManagementPage() {
   */
   if (error) {
     return (
-      <Card className="rounded-2xl border border-[var(--status-danger-border)] bg-[var(--card)] p-6">
+      <Card className="rounded-2xl border border-(--status-danger-border) bg-(--card) p-6">
 
-        <h2 className="text-xl font-semibold text-[var(--status-danger-text)]">
+        <h2 className="text-xl font-semibold text-(--status-danger-text)">
           Failed to load
           schemes
         </h2>
 
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
+        <p className="mt-2 text-sm text-(--text-secondary)">
           Unable to fetch
           scheme data.
         </p>
@@ -220,12 +220,12 @@ export default function SchemeManagementPage() {
 
         <div>
 
-          <h1 className="text-3xl font-bold text-[var(--text-primary)]">
+          <h1 className="text-3xl font-bold text-(--text-primary)">
             Scheme
             Management
           </h1>
 
-          <p className="mt-1 text-sm text-[var(--text-secondary)]">
+          <p className="mt-1 text-sm text-(--text-secondary)">
             Configure pricing
             schemes and
             promotional rules.
@@ -257,7 +257,7 @@ export default function SchemeManagementPage() {
           Filters
       =================================== */}
 
-      <Card className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5">
+      <Card className="rounded-2xl border border-(--border) bg-(--card) p-5">
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-1">
 
@@ -265,7 +265,7 @@ export default function SchemeManagementPage() {
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-[var(--text-primary)]">
+            <label className="mb-2 block text-sm font-medium text-(--text-primary)">
               Active Status
             </label>
 
@@ -284,7 +284,7 @@ export default function SchemeManagementPage() {
                 );
               }}
 
-              className="h-11 w-full rounded-xl border border-[var(--border)] bg-[var(--panel)] px-4 text-sm text-[var(--text-primary)] outline-none transition-all focus:border-[var(--status-info-border)]"
+              className="h-11 w-full rounded-xl border border-(--border) bg-(--panel) px-4 text-sm text-(--text-primary) outline-none transition-all focus:border-(--status-info-border)"
             >
               <option value="">
                 All Schemes

@@ -89,9 +89,9 @@ export default function OrderDetailPage() {
     return (
       <div className="space-y-6">
 
-        <div className="h-40 animate-pulse rounded-2xl bg-[var(--table-header-bg)]" />
+        <div className="h-40 animate-pulse rounded-2xl bg-(--table-header-bg)" />
 
-        <div className="h-[500px] animate-pulse rounded-2xl bg-[var(--table-header-bg)]" />
+        <div className="h-125 animate-pulse rounded-2xl bg-(--table-header-bg)" />
       </div>
     );
   }
@@ -103,14 +103,14 @@ export default function OrderDetailPage() {
   */
   if (error || !order) {
     return (
-      <Card className="rounded-2xl border border-[var(--status-danger-border)] bg-[var(--card)] p-6">
+      <Card className="rounded-2xl border border-(--status-danger-border) bg-(--card) p-6">
 
-        <h2 className="text-xl font-semibold text-[var(--status-danger-text)]">
+        <h2 className="text-xl font-semibold text-(--status-danger-text)">
           Failed to load
           order
         </h2>
 
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
+        <p className="mt-2 text-sm text-(--text-secondary)">
           Unable to fetch
           order details.
         </p>

@@ -41,7 +41,7 @@ interface AuditLogResponse {
 }
 
 export default function AuditLogsPage() {
-  const { user } =
+  const { role } =
     useAuth();
 
   /*
@@ -102,7 +102,7 @@ export default function AuditLogsPage() {
       "ADMIN",
       "MANAGER",
     ].includes(
-      user?.role ?? "",
+      role ?? "",
     );
 
   /*
@@ -180,13 +180,13 @@ export default function AuditLogsPage() {
   */
   if (isForbidden) {
     return (
-      <Card className="rounded-2xl border border-[var(--status-danger-border)] bg-[var(--card)] p-8">
+      <Card className="rounded-2xl border border-(--status-danger-border) bg-(--card) p-8">
 
-        <h2 className="text-2xl font-bold text-[var(--status-danger-text)]">
+        <h2 className="text-2xl font-bold text-(--status-danger-text)">
           Access Denied
         </h2>
 
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
+        <p className="mt-2 text-sm text-(--text-secondary)">
           Only ADMIN and
           MANAGER users can
           access audit logs.
@@ -204,9 +204,9 @@ export default function AuditLogsPage() {
     return (
       <div className="space-y-6">
 
-        <div className="h-28 animate-pulse rounded-2xl bg-[var(--table-header-bg)]" />
+        <div className="h-28 animate-pulse rounded-2xl bg-(--table-header-bg)" />
 
-        <div className="h-[600px] animate-pulse rounded-2xl bg-[var(--table-header-bg)]" />
+        <div className="h-150 animate-pulse rounded-2xl bg-(--table-header-bg)" />
       </div>
     );
   }
@@ -218,14 +218,14 @@ export default function AuditLogsPage() {
   */
   if (error) {
     return (
-      <Card className="rounded-2xl border border-[var(--status-danger-border)] bg-[var(--card)] p-6">
+      <Card className="rounded-2xl border border-(--status-danger-border) bg-(--card) p-6">
 
-        <h2 className="text-xl font-semibold text-[var(--status-danger-text)]">
+        <h2 className="text-xl font-semibold text-(--status-danger-text)">
           Failed to load
           audit logs
         </h2>
 
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
+        <p className="mt-2 text-sm text-(--text-secondary)">
           Unable to fetch
           audit log data.
         </p>
@@ -242,11 +242,11 @@ export default function AuditLogsPage() {
 
       <div>
 
-        <h1 className="text-3xl font-bold text-[var(--text-primary)]">
+        <h1 className="text-3xl font-bold text-(--text-primary)">
           Audit Logs
         </h1>
 
-        <p className="mt-1 text-sm text-[var(--text-secondary)]">
+        <p className="mt-1 text-sm text-(--text-secondary)">
           Track entity
           changes, status
           updates and user
@@ -305,13 +305,13 @@ export default function AuditLogsPage() {
       =================================== */}
 
       {logs.length === 0 ? (
-        <Card className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-10 text-center">
+        <Card className="rounded-2xl border border-(--border) bg-(--card) p-10 text-center">
 
-            <h3 className="text-lg font-semibold text-[var(--text-primary)]">
+            <h3 className="text-lg font-semibold text-(--text-primary)">
             No Audit Logs Found
             </h3>
 
-            <p className="mt-2 text-sm text-[var(--text-secondary)]">
+            <p className="mt-2 text-sm text-(--text-secondary)">
             Try adjusting filters or date range.
             </p>
         </Card>

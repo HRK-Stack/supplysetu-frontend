@@ -34,7 +34,7 @@ interface TerritoryResponse {
 }
 
 export default function TerritoryManagementPage() {
-  const { user } =
+  const { role } =
     useAuth();
 
   /*
@@ -69,7 +69,7 @@ export default function TerritoryManagementPage() {
     ===================================
   */
   const isForbidden =
-    user?.role !==
+    role !==
     "ADMIN";
 
   /*
@@ -121,13 +121,13 @@ const handleRefresh =
   */
   if (isForbidden) {
     return (
-      <Card className="rounded-2xl border border-[var(--status-danger-border)] bg-[var(--card)] p-8">
+      <Card className="rounded-2xl border border-(--status-danger-border) bg-(--card) p-8">
 
-        <h2 className="text-2xl font-bold text-[var(--status-danger-text)]">
+        <h2 className="text-2xl font-bold text-(--status-danger-text)">
           Access Denied
         </h2>
 
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
+        <p className="mt-2 text-sm text-(--text-secondary)">
           Only ADMIN users
           can manage
           territories.
@@ -145,9 +145,9 @@ const handleRefresh =
     return (
       <div className="space-y-6">
 
-        <div className="h-28 animate-pulse rounded-2xl bg-[var(--table-header-bg)]" />
+        <div className="h-28 animate-pulse rounded-2xl bg-(--table-header-bg)" />
 
-        <div className="h-[500px] animate-pulse rounded-2xl bg-[var(--table-header-bg)]" />
+        <div className="h-125 animate-pulse rounded-2xl bg-(--table-header-bg)" />
       </div>
     );
   }
@@ -159,14 +159,14 @@ const handleRefresh =
   */
   if (error) {
     return (
-      <Card className="rounded-2xl border border-[var(--status-danger-border)] bg-[var(--card)] p-6">
+      <Card className="rounded-2xl border border-(--status-danger-border) bg-(--card) p-6">
 
-        <h2 className="text-xl font-semibold text-[var(--status-danger-text)]">
+        <h2 className="text-xl font-semibold text-(--status-danger-text)">
           Failed to load
           territories
         </h2>
 
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
+        <p className="mt-2 text-sm text-(--text-secondary)">
           Unable to fetch
           territory data.
         </p>
@@ -185,12 +185,12 @@ const handleRefresh =
 
         <div>
 
-          <h1 className="text-3xl font-bold text-[var(--text-primary)]">
+          <h1 className="text-3xl font-bold text-(--text-primary)">
             Territory
             Management
           </h1>
 
-          <p className="mt-1 text-sm text-[var(--text-secondary)]">
+          <p className="mt-1 text-sm text-(--text-secondary)">
             Manage territory
             pricing adjustment
             rules.

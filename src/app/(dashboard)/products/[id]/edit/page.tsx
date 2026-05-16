@@ -20,6 +20,7 @@ import {
 } from "@tanstack/react-query";
 
 import api from "@/lib/api";
+import Link from "next/link";
 
 import ProductForm from "@/components/products/ProductForm";
 
@@ -37,7 +38,7 @@ export default function EditProductPage() {
         : params.id;
 
   const {
-    user,
+    role,
     isLoading: authLoading,
   } = useAuth();
 
@@ -52,8 +53,8 @@ export default function EditProductPage() {
     ===================================
   */
     const canManage =
-        user?.role === "ADMIN" ||
-        user?.role === "MANAGER";
+        role === "ADMIN" ||
+        role === "MANAGER";
 
     const isForbidden =
         !canManage; 
@@ -102,27 +103,29 @@ export default function EditProductPage() {
   if (isForbidden) {
     return (
       <div className="flex min-h-[70vh] items-center justify-center">
-        <Card className="w-full max-w-md rounded-2xl border border-[var(--status-danger-border)] bg-[var(--card)] p-8 text-center shadow-sm">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--status-danger-bg)]">
-            <ShieldAlert className="h-7 w-7 text-[var(--status-danger-text)]" />
+        <Card className="w-full max-w-md rounded-2xl border border-(--status-danger-border) bg-(--card) p-8 text-center shadow-sm">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-(--status-danger-bg)">
+            <ShieldAlert className="h-7 w-7 text-(--status-danger-text)" />
           </div>
 
-          <h1 className="mt-5 font-[var(--font-heading)] text-2xl font-bold text-[var(--text-primary)]">
+          <h1 className="mt-5 text-2xl font-bold text-(--text-primary)">
             Access Denied
           </h1>
 
-          <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">
+          <p className="mt-2 text-sm leading-relaxed text-(--text-secondary)">
             You do not have
             permission to edit
             products.
           </p>
 
-          <Button
-            className="mt-6 w-full"
+          <Link
             href="/products"
+            className="w-full"
           >
-            Back to Products
-          </Button>
+            <Button className="mt-6 w-full">
+              Back to Products
+            </Button>
+          </Link>
         </Card>
       </div>
     );
@@ -131,9 +134,9 @@ export default function EditProductPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="h-10 w-72 animate-pulse rounded-xl bg-[var(--table-header-bg)]" />
+        <div className="h-10 w-72 animate-pulse rounded-xl bg-(--table-header-bg)" />
 
-        <Card className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
+        <Card className="rounded-2xl border border-(--border) bg-(--card) p-6">
           <div className="space-y-4">
             {Array.from({
               length: 8,
@@ -141,7 +144,7 @@ export default function EditProductPage() {
               (_, index) => (
                 <div
                   key={index}
-                  className="h-12 animate-pulse rounded-xl bg-[var(--table-header-bg)]"
+                  className="h-12 animate-pulse rounded-xl bg-(--table-header-bg)"
                 />
               ),
             )}
@@ -153,14 +156,14 @@ export default function EditProductPage() {
 
   if (error || !product) {
     return (
-      <Card className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
+      <Card className="rounded-2xl border border-(--border) bg-(--card) p-6">
         <div className="space-y-3">
-          <h2 className="text-xl font-semibold text-[var(--status-danger-text)]">
+          <h2 className="text-xl font-semibold text-(--status-danger-text)">
             Failed to load
             product
           </h2>
 
-          <p className="text-sm text-[var(--text-secondary)]">
+          <p className="text-sm text-(--text-secondary)">
             Unable to fetch
             product details.
           </p>
@@ -177,11 +180,11 @@ export default function EditProductPage() {
       =================================== */}
 
       <div>
-        <h1 className="font-[var(--font-heading)] text-3xl font-bold text-[var(--text-primary)]">
+        <h1 className="font-(--font-heading) text-3xl text-(--text-primary)">
           Edit Product
         </h1>
 
-        <p className="mt-1 text-sm text-[var(--text-secondary)]">
+        <p className="mt-1 text-sm text-(--text-secondary)">
           Update product
           details, GST and
           pricing configuration.

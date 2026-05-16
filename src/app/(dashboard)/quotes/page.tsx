@@ -32,7 +32,7 @@ import type { PaginatedResponse } from "@/types/common";
 
 export default function QuotesPage() {
   const {
-    user,
+    role,
     isLoading: authLoading,
     } = useAuth();
 
@@ -126,7 +126,7 @@ export default function QuotesPage() {
       */
       if (
         salesRepId &&
-        user?.role !==
+        role !==
           "SALES_REP"
       ) {
         params.set(
@@ -158,7 +158,7 @@ export default function QuotesPage() {
       salesRepId,
       createdFrom,
       createdTo,
-      user?.role,
+      role,
     ]);
 
   /*
@@ -181,7 +181,7 @@ export default function QuotesPage() {
         salesRepId,
         createdFrom,
         createdTo,
-        user?.role,
+        role,
     ],
 
     queryFn: async () => {
@@ -206,7 +206,9 @@ export default function QuotesPage() {
     ===================================
   */
   const meta =
-    data?.meta;
+    data?.success
+      ? data.meta
+      : null;
 
   return (
     <div className="space-y-6">
@@ -217,11 +219,11 @@ export default function QuotesPage() {
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-[var(--font-heading)] text-3xl font-bold text-[var(--text-primary)]">
+          <h1 className="text-3xl font-bold text-(--text-primary)">
             Quotes
           </h1>
 
-          <p className="mt-1 text-sm text-[var(--text-secondary)]">
+          <p className="mt-1 text-sm text-(--text-secondary)">
             Manage dealer
             quotations and
             negotiations.
@@ -299,7 +301,7 @@ export default function QuotesPage() {
           );
         }}
         canViewSalesRepFilter={
-          user?.role !==
+          role !==
           "SALES_REP"
         }
       />
@@ -308,7 +310,7 @@ export default function QuotesPage() {
           Quote Table
       =================================== */}
 
-      <Card className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm">
+      <Card className="overflow-hidden rounded-2xl border border-(--border) bg-(--card) shadow-sm">
 
         {/* 
           FE-022 CHANGE:
@@ -322,7 +324,7 @@ export default function QuotesPage() {
               (_, index) => (
                 <div
                   key={index}
-                  className="h-12 animate-pulse rounded-xl bg-[var(--table-header-bg)]"
+                  className="h-12 animate-pulse rounded-xl bg-(--table-header-bg)"
                 />
               ),
             )}
@@ -334,8 +336,8 @@ export default function QuotesPage() {
             Error state
           */
           <div className="p-6">
-            <div className="rounded-2xl border border-[var(--status-danger-border)] bg-[var(--status-danger-bg)] p-4">
-              <p className="text-sm text-[var(--status-danger-text)]">
+            <div className="rounded-2xl border border-(--status-danger-border) bg-(--status-danger-bg) p-4">
+              <p className="text-sm text-(--status-danger-text)">
                 Failed to load
                 quotes.
               </p>
@@ -343,7 +345,7 @@ export default function QuotesPage() {
           </div>
         ) : quotes.length === 0 ? (
             <div className="p-12 text-center">
-            <p className="text-sm text-[var(--text-muted)]">
+            <p className="text-sm text-(--text-muted)">
                 No quotes found.
             </p>
             </div>
@@ -360,25 +362,11 @@ export default function QuotesPage() {
 
       {meta && (
         <Pagination
-          page={meta.page}
-          pageSize={
-            meta.page_size
-          }
-          total={meta.total}
-          totalPages={
-            meta.total_pages
-          }
-          onPageChange={
-            setPage
-          }
-          onPageSizeChange={(
-            size,
-          ) => {
+          meta={meta}
+          onPageChange={setPage}
+          onPageSizeChange={(size) => {
             setPage(1);
-
-            setPageSize(
-              size,
-            );
+            setPageSize(size);
           }}
         />
       )}

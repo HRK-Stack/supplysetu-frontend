@@ -123,9 +123,9 @@ export default function QuoteDetailPage() {
     return (
       <div className="space-y-6">
 
-        <div className="h-32 animate-pulse rounded-2xl bg-[var(--table-header-bg)]" />
+        <div className="h-32 animate-pulse rounded-2xl bg-(--table-header-bg)" />
 
-        <div className="h-96 animate-pulse rounded-2xl bg-[var(--table-header-bg)]" />
+        <div className="h-96 animate-pulse rounded-2xl bg-(--table-header-bg)" />
       </div>
     );
   }
@@ -137,14 +137,14 @@ export default function QuoteDetailPage() {
   */
   if (error || !quote) {
     return (
-      <Card className="rounded-2xl border border-[var(--status-danger-border)] bg-[var(--card)] p-6">
+      <Card className="rounded-2xl border border-(--status-danger-border) bg-(--card) p-6">
 
-        <h2 className="text-xl font-semibold text-[var(--status-danger-text)]">
+        <h2 className="text-xl font-semibold text-(--status-danger-text)">
           Failed to load
           quote
         </h2>
 
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
+        <p className="mt-2 text-sm text-(--text-secondary)">
           Unable to fetch
           quote details.
         </p>
@@ -168,26 +168,28 @@ export default function QuoteDetailPage() {
           Quote Expiry Banner
       =================================== */}
 
-      <QuoteExpiryBanner
-        validUntil={
-          quote.valid_until
-        }
+      {quote.current_revision?.valid_until && (
+        <QuoteExpiryBanner
+          validUntil={
+            quote.current_revision?.valid_until
+          }
 
-        /*
-          ===================================
-          FE-030 CHANGE:
-          Open revision flow
-          ===================================
-        */
-        onCreateRevision={() => {
-          const revisionButton =
-            document.querySelector(
-              "[data-create-revision]",
-            ) as HTMLButtonElement | null;
+          /*
+            ===================================
+            FE-030 CHANGE:
+            Open revision flow
+            ===================================
+          */
+          onCreateRevision={() => {
+            const revisionButton =
+              document.querySelector(
+                "[data-create-revision]",
+              ) as HTMLButtonElement | null;
 
-          revisionButton?.click();
-        }}
-      />
+            revisionButton?.click();
+          }}
+        />
+      )}
 
       {/* ===================================
           FE-027 CHANGE:

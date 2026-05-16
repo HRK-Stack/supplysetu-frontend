@@ -28,16 +28,19 @@ import OrderFilters from "@/components/orders/OrderFilters";
 import OrderTable from "@/components/orders/OrderTable";
 
 import { useAuth } from "@/hooks/useAuth";
+
 import type {
   Order,
-  PaginatedResponse,
 } from "@/types/order";
+
+import type { PaginatedResponse }
+  from "@/types/common";
 
 export default function OrdersPage() {
   const router =
     useRouter();
 
-  const { user } =
+  const { role } =
     useAuth();
 
   /*
@@ -134,10 +137,14 @@ export default function OrdersPage() {
   });
 
   const orders =
-    data?.data ?? [];
+    data?.success
+      ? data.data
+      : [];
 
   const meta =
-    data?.meta;
+    data?.success
+      ? data.meta
+      : null;
 
   return (
     <div className="space-y-6">
@@ -150,12 +157,12 @@ export default function OrdersPage() {
 
         <div>
 
-          <h1 className="font-[var(--font-heading)] text-3xl font-bold text-[var(--text-primary)]">
+          <h1 className="text-3xl font-bold text-(--text-primary)">
 
             Orders
           </h1>
 
-          <p className="mt-1 text-sm text-[var(--text-secondary)]">
+          <p className="mt-1 text-sm text-(--text-secondary)">
             Manage orders,
             export status and
             dealer fulfilment.
@@ -168,10 +175,8 @@ export default function OrdersPage() {
         =================================== */}
 
         {(
-          user?.role ===
-            "ADMIN" ||
-          user?.role ===
-            "MANAGER"
+          role === "ADMIN" ||
+          role === "MANAGER"
         ) && (
           <Button>
             Export Orders
@@ -253,16 +258,16 @@ export default function OrdersPage() {
       =================================== */}
 
       {meta && (
-        <Card className="flex flex-col gap-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 lg:flex-row lg:items-center lg:justify-between">
+        <Card className="flex flex-col gap-4 rounded-2xl border border-(--border) bg-(--card) p-5 lg:flex-row lg:items-center lg:justify-between">
 
-          <div className="text-sm text-[var(--text-secondary)]">
+          <div className="text-sm text-(--text-secondary)">
 
             Showing page{" "}
-            <span className="font-semibold text-[var(--text-primary)]">
+            <span className="font-semibold text-(--text-primary)">
               {meta.page}
             </span>{" "}
             of{" "}
-            <span className="font-semibold text-[var(--text-primary)]">
+            <span className="font-semibold text-(--text-primary)">
               {meta.total_pages}
             </span>
           </div>

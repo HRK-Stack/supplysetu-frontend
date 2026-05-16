@@ -97,10 +97,14 @@ export default function DealersPage() {
   });
 
   const dealers =
-    dealersQuery.data?.data ?? [];
+    dealersQuery.data?.success
+      ? dealersQuery.data.data
+      : [];
 
   const meta =
-    dealersQuery.data?.meta;
+    dealersQuery.data?.success
+      ? dealersQuery.data.meta
+      : null;
 
   const territories =
     territoriesQuery.data?.data ?? [];
@@ -113,11 +117,11 @@ export default function DealersPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="font-[var(--fh)] text-2xl font-bold text-[var(--navy)]">
+          <h1 className="text-2xl font-bold text-(--navy)">
             Dealers
           </h1>
 
-          <p className="mt-1 text-sm text-[var(--text3)]">
+          <p className="mt-1 text-sm text-(--text3)">
             Manage dealer accounts,
             territories, and balances.
           </p>
@@ -160,7 +164,7 @@ export default function DealersPage() {
       />
 
       {dealersQuery.isLoading ? (
-        <div className="space-y-3 rounded-2xl border border-[var(--border)] bg-white p-5">
+        <div className="space-y-3 rounded-2xl border border-(--border) bg-white p-5">
           <Skeleton className="h-12 w-full rounded-xl" />
           <Skeleton className="h-12 w-full rounded-xl" />
           <Skeleton className="h-12 w-full rounded-xl" />
@@ -173,10 +177,7 @@ export default function DealersPage() {
 
       {meta && (
         <Pagination
-          page={meta.page}
-          pageSize={meta.page_size}
-          total={meta.total}
-          totalPages={meta.total_pages}
+          meta={meta}
           onPageChange={setPage}
           onPageSizeChange={(size) => {
             setPage(1);

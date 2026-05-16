@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/Button";
 
 import { useAuth } from "@/hooks/useAuth";
 import { useDealer } from "@/hooks/useDealers";
+import Link from "next/link";
 
 export default function EditDealerPage() {
   const params = useParams();
@@ -20,42 +21,45 @@ export default function EditDealerPage() {
     ? params.id[0]
     : params.id;
 
-  const { user } = useAuth();
+  const { role } = useAuth();
 
   const isForbidden =
-    user?.role ===
-    "SALES_REP";
+    role ==="SALES_REP";
 
   const {
-    dealer,
+    data,
     isLoading,
     error,
-  } = useDealer(dealerId);
+  } = useDealer(dealerId ?? "");
+
+  const dealer =
+    data?.success
+      ? data.data
+      : null;
 
   if (isForbidden) {
     return (
       <div className="flex min-h-[70vh] items-center justify-center">
-        <Card className="w-full max-w-md rounded-2xl border border-red-500/20 bg-[var(--bg-card)] p-8 text-center">
+        <Card className="w-full max-w-md rounded-2xl border border-red-500/20 bg-(--bg-card) p-8 text-center">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500/10">
             <ShieldAlert className="h-7 w-7 text-red-500" />
           </div>
 
-          <h1 className="mt-5 text-2xl font-bold text-[var(--text-primary)]">
+          <h1 className="mt-5 text-2xl font-bold text-(--text-primary)">
             Access Denied
           </h1>
 
-          <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">
+          <p className="mt-2 text-sm leading-relaxed text-(--text-secondary)">
             You do not have
             permission to edit
             dealers.
           </p>
 
-          <Button
-            className="mt-6 w-full"
-            href="/dealers"
-          >
-            Back to Dealers
-          </Button>
+          <Link href="/dealers" className="w-full">
+            <Button className="mt-6 w-full">
+              Back to Dealers
+            </Button>
+          </Link>
         </Card>
       </div>
     );
@@ -64,7 +68,7 @@ export default function EditDealerPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="h-10 w-72 animate-pulse rounded-xl bg-[var(--bg-main)]" />
+        <div className="h-10 w-72 animate-pulse rounded-xl bg-(--bg-main)" />
 
         <Card className="rounded-2xl p-6">
           <div className="space-y-4">
@@ -74,7 +78,7 @@ export default function EditDealerPage() {
               (_, index) => (
                 <div
                   key={index}
-                  className="h-12 animate-pulse rounded-xl bg-[var(--bg-main)]"
+                  className="h-12 animate-pulse rounded-xl bg-(--bg-main)"
                 />
               ),
             )}
@@ -93,7 +97,7 @@ export default function EditDealerPage() {
             dealer
           </h2>
 
-          <p className="text-sm text-[var(--text-secondary)]">
+          <p className="text-sm text-(--text-secondary)">
             Unable to fetch
             dealer data.
           </p>
@@ -105,11 +109,11 @@ export default function EditDealerPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-[var(--text-primary)]">
+        <h1 className="text-3xl font-bold text-(--text-primary)">
           Edit Dealer
         </h1>
 
-        <p className="mt-1 text-sm text-[var(--text-secondary)]">
+        <p className="mt-1 text-sm text-(--text-secondary)">
           Update dealer
           information and
           territory mapping.

@@ -19,11 +19,11 @@ export default function NewQuotePage() {
       =================================== */}
 
       <div>
-        <h1 className="font-[var(--font-heading)] text-3xl font-bold text-[var(--text-primary)]">
+        <h1 className="text-3xl font-bold text-(--text-primary)">
           Create Quote
         </h1>
 
-        <p className="mt-1 text-sm text-[var(--text-secondary)]">
+        <p className="mt-1 text-sm text-(--text-secondary)">
           Create dealer
           quotation with
           products, pricing
