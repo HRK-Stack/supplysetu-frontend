@@ -16,6 +16,10 @@ export interface Dealer {
   gstin: string | null;
   address: string | null;
   territory_id: UUID | null;
+  territory?: {
+    id: UUID;
+    name: string;
+  } | null;
   discount_pct: number; // basis points; 500 = 5.00%
   credit_limit: number; // paise; 0 = cash-only (no credit check)
   outstanding_balance: number; // paise; read-only — synced from Tally

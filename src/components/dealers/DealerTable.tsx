@@ -23,12 +23,12 @@ export default function DealerTable({
   // Matches TASK-FE-014 acceptance criteria
   if (dealers.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-[var(--border)] bg-white py-16 text-center">
-        <h3 className="font-[var(--fh)] text-lg font-semibold text-[var(--navy)]">
+      <div className="rounded-2xl border border-dashed border-(--border) bg-white py-16 text-center">
+        <h3 className="text-lg font-semibold text-(--navy)">
           No dealers found
         </h3>
 
-        <p className="mt-2 text-sm text-[var(--text3)]">
+        <p className="mt-2 text-sm text-(--text3)">
           Try changing your filters or
           search query.
         </p>
@@ -37,36 +37,36 @@ export default function DealerTable({
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-white">
+    <div className="overflow-hidden rounded-2xl border border-(--border) bg-white">
       <div className="overflow-x-auto">
         <table className="min-w-full">
-          <thead className="border-b border-[var(--border)] bg-[var(--slate-light)]">
+          <thead className="border-b border-(--border) bg-(--slate-light)">
             <tr>
-              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text3)]">
+              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
                 Name
               </th>
 
-              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text3)]">
+              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
                 Contact
               </th>
 
-              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text3)]">
+              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
                 Phone
               </th>
 
-              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text3)]">
+              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
                 Territory
               </th>
 
-              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text3)]">
+              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
                 Status
               </th>
 
-              <th className="px-5 py-4 text-right text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text3)]">
+              <th className="px-5 py-4 text-right text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
                 Credit Limit
               </th>
 
-              <th className="px-5 py-4 text-right text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text3)]">
+              <th className="px-5 py-4 text-right text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
                 Outstanding Balance
               </th>
             </tr>
@@ -76,39 +76,39 @@ export default function DealerTable({
             {dealers.map((dealer) => (
               <tr
                 key={dealer.id}
-                className="border-b border-[var(--slate-light)] transition-colors hover:bg-[var(--navy-soft)]/40"
+                className="border-b border-(--slate-light) transition-colors hover:bg-(--navy-soft)/40"
               >
                 <td className="px-5 py-4">
                   <Link
                     href={`/dealers/${dealer.id}`}
                     className="block"
                   >
-                    <div className="font-medium text-[var(--navy)]">
+                    <div className="font-medium text-(--navy)">
                       {dealer.name}
                     </div>
 
                     {dealer.email && (
-                      <div className="mt-1 text-xs text-[var(--text3)]">
+                      <div className="mt-1 text-xs text-(--text3)">
                         {dealer.email}
                       </div>
                     )}
                   </Link>
                 </td>
 
-                <td className="px-5 py-4 text-sm text-[var(--text2)]">
+                <td className="px-5 py-4 text-sm text-(--text2)">
                   {/* ✅ CHANGE:
                       Fallback placeholder for missing values */}
                   {dealer.contact_name || "—"}
                 </td>
 
-                <td className="px-5 py-4 text-sm text-[var(--text2)]">
+                <td className="px-5 py-4 text-sm text-(--text2)">
                   {dealer.phone || "—"}
                 </td>
 
-                <td className="px-5 py-4 text-sm text-[var(--text2)]">
+                <td className="px-5 py-4 text-sm text-(--text2)">
                   {/* ✅ CHANGE:
                       Optional chaining prevents undefined errors */}
-                  {dealer.territory_id || "—"}
+                  {dealer.territory?.name || "—"}
                 </td>
 
                 <td className="px-5 py-4">
@@ -127,7 +127,7 @@ export default function DealerTable({
                   </Badge>
                 </td>
 
-                <td className="px-5 py-4 text-right font-medium tabular-nums text-[var(--text)]">
+                <td className="px-5 py-4 text-right font-medium tabular-nums text-(--text)">
                   {/* ✅ CHANGE:
                       Monetary values MUST use formatPaise()
                       per frontend rules */}
@@ -136,7 +136,7 @@ export default function DealerTable({
                   )}
                 </td>
 
-                <td className="px-5 py-4 text-right font-medium tabular-nums text-[var(--text)]">
+                <td className="px-5 py-4 text-right font-medium tabular-nums text-(--text)">
                   {formatPaise(
                     dealer.outstanding_balance,
                   )}

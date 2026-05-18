@@ -11,6 +11,7 @@ import { useState } from "react";
 
 import {
   useMutation,
+  useQueryClient,
 } from "@tanstack/react-query";
 
 import {  
@@ -19,6 +20,9 @@ import {
 } from "lucide-react";
 
 import api from "@/lib/api";
+
+import { useRouter }
+from "next/navigation";
 
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -50,6 +54,7 @@ export default function QuoteItemBuilder({
   dealerId,
 }: QuoteItemBuilderProps) {
   const { user } = useAuth();
+  const router = useRouter();
 
   /*
     ===================================
@@ -79,6 +84,8 @@ export default function QuoteItemBuilder({
     setOverridePrice,
   ] = useState("");
 
+  const queryClient =
+    useQueryClient();
   /*
     ===================================
     FE-024 CHANGE:
@@ -201,37 +208,83 @@ export default function QuoteItemBuilder({
     Quote create
     ===================================
   */
+
+  
   const createQuoteMutation =
     useMutation({
       mutationFn: async () => {
-        const response =
-          await api.post<{
-            data: {
-                id: string;
-            };
-            }>(
-            "/quotes",
-            {
-              dealer_id:
-                dealerId,
+        const payload = {
+          dealer_id: dealerId,
 
-              valid_days: 30,
+          valid_days: 30,
 
-              items:
-                items.map(
-                  (item) => ({
-                    product_id:
-                      item.product
-                        .id,
+          items: items.map(
+            (item) => ({
+              product_id:
+                item.product.id,
 
-                    quantity:
-                      item.quantity,
-                  }),
+              quantity:
+                item.quantity,
+
+              final_unit_price:
+                Math.round(
+                  item.pricing
+                    .final_unit_price,
                 ),
-            },
+
+              final_price_with_gst:
+                Math.round(
+                  item.pricing
+                    .final_price_with_gst,
+                ),
+
+              subtotal:
+                Math.round(
+                  (
+                    item.pricing
+                      .final_price_with_gst ?? 0
+                  ) * item.quantity,
+                ),
+
+              override_price:
+                item.pricing
+                  .override_price ??
+                null,
+            }),
+          ),
+        };
+
+        console.log(
+          "FINAL QUOTE PAYLOAD",
+          JSON.stringify(
+            payload,
+            null,
+            2,
+          ),
+        );
+
+        const response =
+          await api.post(
+            "/quotes",
+            payload,
           );
 
+        console.log(
+          "QUOTE RESPONSE",
+          response.data,
+        );
+
         return response.data;
+      },
+
+      onSuccess: async () => {
+
+        await queryClient
+          .invalidateQueries({
+            queryKey: ["quotes"],
+          });
+
+        router.push("/quotes");
       },
     });
 
@@ -242,8 +295,10 @@ export default function QuoteItemBuilder({
         item,
       ) =>
         total +
-        item.pricing
-          .subtotal,
+        (
+          item.pricing
+            .subtotal ?? 0
+        ),
       0,
     );
 
@@ -254,22 +309,22 @@ export default function QuoteItemBuilder({
           Product Search
       =================================== */}
 
-      <Card className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 shadow-sm">
+      <Card className="rounded-2xl border border-(--border) bg-(--card) p-6 shadow-sm">
 
         <div className="mb-5 flex items-center justify-between">
           <div>
-            <h2 className="font-[var(--font-heading)] text-xl font-semibold text-[var(--text-primary)]">
+            <h2 className="text-xl font-semibold text-(--text-primary)">
               Add Quote Items
             </h2>
 
-            <p className="mt-1 text-sm text-[var(--text-secondary)]">
+            <p className="mt-1 text-sm text-(--text-secondary)">
               Search products
               and build quote
               line items.
             </p>
           </div>
 
-          <div className="rounded-full border border-[var(--status-info-border)] bg-[var(--status-info-bg)] px-3 py-1 text-xs font-medium text-[var(--status-info-text)]">
+          <div className="rounded-full border border-(--status-info-border) bg-(--status-info-bg) px-3 py-1 text-xs font-medium text-(--status-info-text)">
             Step 2
           </div>
         </div>
@@ -382,10 +437,10 @@ export default function QuoteItemBuilder({
           Added Items
       =================================== */}
 
-      <Card className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm">
+      <Card className="overflow-hidden rounded-2xl border border-(--border) bg-(--card) shadow-sm">
 
-        <div className="border-b border-[var(--table-border)] px-6 py-5">
-          <h2 className="font-[var(--font-heading)] text-xl font-semibold text-[var(--text-primary)]">
+        <div className="border-b border-(--table-border) px-6 py-5">
+          <h2 className="text-xl font-semibold text-(--text-primary)">
             Quote Items
           </h2>
         </div>
@@ -393,7 +448,7 @@ export default function QuoteItemBuilder({
         {items.length ===
         0 ? (
           <div className="py-14 text-center">
-            <p className="text-sm text-[var(--text-muted)]">
+            <p className="text-sm text-(--text-muted)">
               No items added
               yet.
             </p>
@@ -404,29 +459,29 @@ export default function QuoteItemBuilder({
 
               {/* Table Head */}
 
-              <thead className="bg-[var(--table-header-bg)]">
-                <tr className="border-b border-[var(--table-border)]">
-                  <th scope="col" className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+              <thead className="bg-(--table-header-bg)">
+                <tr className="border-b border-(--table-border)">
+                  <th scope="col" className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
                     Product
                   </th>
 
-                  <th scope="col" className="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                  <th scope="col" className="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
                     Qty
                   </th>
 
-                  <th scope="col" className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                  <th scope="col" className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
                     Final Unit Price
                   </th>
 
-                  <th scope="col" className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                  <th scope="col" className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
                     Final Price GST
                   </th>
 
-                  <th scope="col" className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                  <th scope="col" className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
                     Subtotal
                   </th>
 
-                  <th scope="col" className="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                  <th scope="col" className="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
                     Action
                   </th>
                 </tr>
@@ -441,11 +496,11 @@ export default function QuoteItemBuilder({
                       key={
                         item.id
                       }
-                      className="border-b border-[var(--table-border)]"
+                      className="border-b border-(--table-border)"
                     >
                       <td className="px-5 py-4">
                         <div>
-                          <p className="font-medium text-[var(--text-primary)]">
+                          <p className="font-medium text-(--text-primary)">
                             {
                               item
                                 .product
@@ -453,7 +508,7 @@ export default function QuoteItemBuilder({
                             }
                           </p>
 
-                          <p className="mt-1 text-xs text-[var(--text-secondary)]">
+                          <p className="mt-1 text-xs text-(--text-secondary)">
                             {
                               item
                                 .product
@@ -469,7 +524,7 @@ export default function QuoteItemBuilder({
                         }
                       </td>
 
-                      <td className="px-5 py-4 text-right font-medium text-[var(--text-primary)]">
+                      <td className="px-5 py-4 text-right font-medium text-(--text-primary)">
                         {formatPaise(
                           item
                             .pricing
@@ -477,7 +532,7 @@ export default function QuoteItemBuilder({
                         )}
                       </td>
 
-                      <td className="px-5 py-4 text-right font-medium text-[var(--text-primary)]">
+                      <td className="px-5 py-4 text-right font-medium text-(--text-primary)">
                         {formatPaise(
                           item
                             .pricing
@@ -485,7 +540,7 @@ export default function QuoteItemBuilder({
                         )}
                       </td>
 
-                      <td className="px-5 py-4 text-right font-semibold text-[var(--navy)]">
+                      <td className="px-5 py-4 text-right font-semibold text-(--navy)">
                         {formatPaise(
                           item
                             .pricing
@@ -503,7 +558,7 @@ export default function QuoteItemBuilder({
                               item.id,
                             )
                           }
-                          className="inline-flex items-center justify-center rounded-lg border border-[var(--status-danger-border)] bg-[var(--status-danger-bg)] p-2 text-[var(--status-danger-text)] transition-colors duration-200 hover:opacity-80"
+                          className="inline-flex items-center justify-center rounded-lg border border-(--status-danger-border) bg-(--status-danger-bg) p-2 text-(--status-danger-text) transition-colors duration-200 hover:opacity-80"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -521,16 +576,16 @@ export default function QuoteItemBuilder({
           Footer
       =================================== */}
 
-      <div className="flex flex-col gap-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-4 rounded-2xl border border-(--border) bg-(--card) p-6 shadow-sm lg:flex-row lg:items-center lg:justify-between">
 
         {/* Summary */}
 
         <div>
-          <p className="text-sm text-[var(--text-secondary)]">
+          <p className="text-sm text-(--text-secondary)">
             Quote Subtotal
           </p>
 
-          <h2 className="mt-1 text-3xl font-bold text-[var(--text-primary)]">
+          <h2 className="mt-1 text-3xl font-bold text-(--text-primary)">
             {formatPaise(
               subtotal,
             )}

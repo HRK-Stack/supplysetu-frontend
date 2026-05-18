@@ -126,7 +126,7 @@ export default function QuoteFilters({
     salesRepData?.data || [];
 
   return (
-    <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 shadow-sm">
+    <div className="rounded-2xl border border-(--border) bg-(--card) p-5 shadow-sm">
       <div
         className={`grid grid-cols-1 gap-4 md:grid-cols-2 ${
             canViewSalesRepFilter

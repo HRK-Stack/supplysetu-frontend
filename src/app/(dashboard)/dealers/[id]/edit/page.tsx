@@ -32,10 +32,8 @@ export default function EditDealerPage() {
     error,
   } = useDealer(dealerId ?? "");
 
-  const dealer =
-    data?.success
-      ? data.data
-      : null;
+
+  const dealer = data ?? null;
 
   if (isForbidden) {
     return (

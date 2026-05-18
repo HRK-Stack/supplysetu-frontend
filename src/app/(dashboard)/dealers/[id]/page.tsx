@@ -34,10 +34,7 @@ export default function DealerDetailPage() {
     error,
   } = useDealer(dealerId);
 
-  const dealer =
-    data?.success
-      ? data.data
-      : null;
+  const dealer = data ?? null;
 
   const canEdit =
     role === "ADMIN" ||

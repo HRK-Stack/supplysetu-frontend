@@ -189,6 +189,7 @@ export default function DealerForm({
     },
   });
 
+
   const mutation = useMutation({
     mutationFn: async (
       values: FormValues,
@@ -268,9 +269,15 @@ export default function DealerForm({
           : "Dealer created successfully",
       );
 
-      router.push(
-        `/dealers/${response.data.id}`,
-      );
+      const createdDealerId =
+        response?.data?.id ??
+        response?.id;
+
+      if (createdDealerId) {
+        router.push(
+          `/dealers/${createdDealerId}`,
+        );
+      }
     },
 
     onError: async (

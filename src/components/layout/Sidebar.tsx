@@ -68,7 +68,7 @@ const navItems: NavItem[] = [
   },
   {
     label: "Schemes",
-    href: "/schemes",
+    href: "/settings/schemes",
     roles: ["ADMIN", "MANAGER"],
     icon: Percent,
   },

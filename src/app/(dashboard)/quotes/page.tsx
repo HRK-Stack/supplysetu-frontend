@@ -36,9 +36,7 @@ export default function QuotesPage() {
     isLoading: authLoading,
     } = useAuth();
 
-    if (authLoading) {
-        return null;
-}
+
 
   /*
     ===================================
@@ -209,6 +207,10 @@ export default function QuotesPage() {
     data?.success
       ? data.meta
       : null;
+    
+  if (authLoading) {
+    return null;
+  }
 
   return (
     <div className="space-y-6">

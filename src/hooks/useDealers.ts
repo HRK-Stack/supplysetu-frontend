@@ -6,6 +6,7 @@ import {
   getDealers,
   getDealerById,
 } from "@/services/dealer.service";
+import api from "@/lib/api";
 
 export function useDealers() {
   return useQuery({
@@ -21,6 +22,56 @@ export function useDealer(
     queryKey: ["dealer", dealerId],
     queryFn: () => getDealerById(dealerId),
     enabled: !!dealerId,
+  });
+}
+
+export function useDealerAddresses(
+  dealerId: string,
+) {
+  return useQuery({
+    queryKey: [
+      "dealer-addresses",
+      dealerId,
+    ],
+
+    enabled: Boolean(dealerId),
+
+    queryFn: async () => {
+      const response =
+        await api.get(
+          `/dealers/${dealerId}/addresses`,
+        );
+
+      /*
+        Direct array response
+      */
+
+      if (
+        Array.isArray(
+          response.data,
+        )
+      ) {
+        return response.data;
+      }
+
+      /*
+        Wrapped response
+      */
+
+      if (
+        response.data &&
+        typeof response.data ===
+          "object" &&
+        "data" in response.data
+      ) {
+        return (
+          response.data.data ??
+          []
+        );
+      }
+
+      return [];
+    },
   });
 }
 // // src/hooks/useDealers.ts

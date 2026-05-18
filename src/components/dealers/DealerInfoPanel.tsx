@@ -215,7 +215,7 @@ function InfoItem({
       </div>
 
       <p
-        className={`break-words font-medium text-[var(--text-primary)] ${
+        className={`wrap-break-word font-medium text-(--text-primary) ${
           valueClassName || ""
         }`}
       >
