@@ -1,8 +1,9 @@
 // src/app/layout.tsx
-
+import "@/lib/initAuth"; // MUST be first — this wires api.ts ↔ authStore.ts
 import React from "react";
 import type { Metadata } from "next";
 import "@/styles/globals.css";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "SupplySetu",
@@ -17,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-          {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

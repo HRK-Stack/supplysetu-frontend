@@ -33,6 +33,12 @@ interface LoginError {
 export default function LoginPage() {
   const router = useRouter();
 
+  useEffect(() => {
+    if (useAuthStore.getState().isAuthenticated) {
+      router.replace("/");
+    }
+  }, [router]);
+
   const { setToken, setUser } =
     useAuthStore();
 
