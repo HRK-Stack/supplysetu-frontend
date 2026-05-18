@@ -172,7 +172,7 @@ export default function DealersPage() {
           <Skeleton className="h-12 w-full rounded-xl" />
         </div>
       ) : (
-        <DealerTable dealers={dealers} />
+        <DealerTable dealers={dealers} territories={territories}/>
       )}
 
       {meta && (

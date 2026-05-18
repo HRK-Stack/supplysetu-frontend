@@ -1,26 +1,36 @@
-// src/components/dealers/DealerTable.tsx
-
-
 "use client";
 
 import Link from "next/link";
+import { useMemo } from "react";
 
 import { Badge } from "@/components/ui/Badge";
 
 import { formatPaise } from "@/lib/format";
 
 import type { Dealer } from "@/types/dealer";
+import { Territory } from "@/types";
 
 interface DealerTableProps {
   dealers: Dealer[];
+  territories: Territory[];
 }
 
 export default function DealerTable({
   dealers,
+  territories,
 }: DealerTableProps) {
-  // ✅ CHANGE:
-  // Empty state handling
-  // Matches TASK-FE-014 acceptance criteria
+
+  // Create territory lookup map
+  const territoryMap = useMemo(() => {
+    return territories.reduce(
+      (acc, territory) => {
+        acc[territory.id] = territory.name;
+        return acc;
+      },
+      {} as Record<string, string>,
+    );
+  }, [territories]);
+
   if (dealers.length === 0) {
     return (
       <div className="rounded-2xl border border-dashed border-(--border) bg-white py-16 text-center">
@@ -42,31 +52,31 @@ export default function DealerTable({
         <table className="min-w-full">
           <thead className="border-b border-(--border) bg-(--slate-light)">
             <tr>
-              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
+              <th className="px-5 py-4 text-left">
                 Name
               </th>
 
-              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
+              <th className="px-5 py-4 text-left">
                 Contact
               </th>
 
-              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
+              <th className="px-5 py-4 text-left">
                 Phone
               </th>
 
-              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
+              <th className="px-5 py-4 text-left">
                 Territory
               </th>
 
-              <th className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
+              <th className="px-5 py-4 text-left">
                 Status
               </th>
 
-              <th className="px-5 py-4 text-right text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
+              <th className="px-5 py-4 text-right">
                 Credit Limit
               </th>
 
-              <th className="px-5 py-4 text-right text-[11px] font-semibold uppercase tracking-[0.08em] text-(--text3)">
+              <th className="px-5 py-4 text-right">
                 Outstanding Balance
               </th>
             </tr>
@@ -76,7 +86,7 @@ export default function DealerTable({
             {dealers.map((dealer) => (
               <tr
                 key={dealer.id}
-                className="border-b border-(--slate-light) transition-colors hover:bg-(--navy-soft)/40"
+                className="border-b border-(--slate-light)"
               >
                 <td className="px-5 py-4">
                   <Link
@@ -96,8 +106,6 @@ export default function DealerTable({
                 </td>
 
                 <td className="px-5 py-4 text-sm text-(--text2)">
-                  {/* ✅ CHANGE:
-                      Fallback placeholder for missing values */}
                   {dealer.contact_name || "—"}
                 </td>
 
@@ -106,19 +114,17 @@ export default function DealerTable({
                 </td>
 
                 <td className="px-5 py-4 text-sm text-(--text2)">
-                  {/* ✅ CHANGE:
-                      Optional chaining prevents undefined errors */}
-                  {dealer.territory?.name || "—"}
+                  {
+                    dealer.territory_id
+                    ? territoryMap[dealer.territory_id] || "—"
+                    : "—"
+                  }
                 </td>
 
                 <td className="px-5 py-4">
                   <Badge
-                    // ✅ CHANGE:
-                    // Status badge mapping
-                    // aligned with theme system
                     variant={
-                      dealer.status ===
-                      "ACTIVE"
+                      dealer.status === "ACTIVE"
                         ? "success"
                         : "warning"
                     }
@@ -127,16 +133,11 @@ export default function DealerTable({
                   </Badge>
                 </td>
 
-                <td className="px-5 py-4 text-right font-medium tabular-nums text-(--text)">
-                  {/* ✅ CHANGE:
-                      Monetary values MUST use formatPaise()
-                      per frontend rules */}
-                  {formatPaise(
-                    dealer.credit_limit,
-                  )}
+                <td className="px-5 py-4 text-right">
+                  {formatPaise(dealer.credit_limit)}
                 </td>
 
-                <td className="px-5 py-4 text-right font-medium tabular-nums text-(--text)">
+                <td className="px-5 py-4 text-right">
                   {formatPaise(
                     dealer.outstanding_balance,
                   )}
