@@ -153,7 +153,7 @@ export default function OrderItemList({
 
                         {formatPaise(
                           item.pricing_snapshot
-                            .final_unit_price
+                            ?.final_unit_price ?? 0,
                         )}
                       </p>
                     </div>
@@ -169,7 +169,7 @@ export default function OrderItemList({
 
                         {formatPaise(
                           item.pricing_snapshot
-                            .final_price_with_gst
+                            ?.final_price_with_gst ?? 0,
                         )}
                       </p>
                     </div>
@@ -188,9 +188,10 @@ export default function OrderItemList({
 
                     {formatPaise(
                       (
-                        item.pricing_snapshot
-                          .final_price_with_gst *
-                        item.quantity
+                        (
+                          item.pricing_snapshot
+                            ?.final_price_with_gst ?? 0
+                        ) * item.quantity
                       )
                     )}
                   </h2>
@@ -208,12 +209,16 @@ export default function OrderItemList({
                     Reuse pricing component
                 =================================== */}
 
-                {item.pricing_snapshot && (
-                    <PricingBreakdown
-                        pricingSnapshot={
-                        item.pricing_snapshot
-                        }
-                    />
+                {item.pricing_snapshot ? (
+                  <PricingBreakdown
+                    pricingSnapshot={
+                      item.pricing_snapshot
+                    }
+                  />
+                ) : (
+                  <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 text-sm text-[var(--text-secondary)]">
+                    Pricing snapshot unavailable.
+                  </div>
                 )}
               </div>
             </div>

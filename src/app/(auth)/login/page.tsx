@@ -572,62 +572,6 @@ export default function LoginPage() {
                   justify-center text-sm
                 "
               >
-                <span
-                  className="
-                    bg-white px-2
-                    text-[#94A3B8]
-                  "
-                >
-                  Demo
-                </span>
-              </div>
-            </div>
-
-            {/* Demo */}
-            <div
-              className="
-                space-y-2 rounded-lg
-                border border-[#BFDBFE]
-                bg-[#EFF6FF] p-4
-                text-sm
-              "
-            >
-              <p
-                className="
-                  font-medium
-                  text-[#1D4ED8]
-                "
-              >
-                Demo Admin Account:
-              </p>
-
-              <div
-                className="
-                  space-y-1.5
-                  font-mono text-[#1E3A8A]
-                "
-              >
-                <div>
-                  <span
-                    className="
-                      text-[#94A3B8]
-                    "
-                  >
-                    Email:
-                  </span>{" "}
-                  admin@demo.com
-                </div>
-
-                <div>
-                  <span
-                    className="
-                      text-[#94A3B8]
-                    "
-                  >
-                    Password:
-                  </span>{" "}
-                  Demo@12345
-                </div>
               </div>
             </div>
           </form>

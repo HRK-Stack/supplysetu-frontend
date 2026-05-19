@@ -178,7 +178,13 @@ export default function OrdersPage() {
           role === "ADMIN" ||
           role === "MANAGER"
         ) && (
-          <Button>
+          <Button
+            onClick={() => {
+              router.push(
+                "/orders/export",
+              );
+            }}
+          >
             Export Orders
           </Button>
         )}
