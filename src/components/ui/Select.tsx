@@ -86,7 +86,7 @@ export function Select({
   return (
     <div
       ref={containerRef}
-      className="flex flex-col gap-1.5"
+      className="relative flex flex-col gap-1.5"
     >
       {label && (
         <label className="text-sm font-medium text-[#475569]">
@@ -142,9 +142,10 @@ export function Select({
       {open && (
         <div
           className="
-            z-50 overflow-hidden rounded-xl
+            absolute top-full left-0 z-50 mt-2
+            w-full overflow-hidden rounded-xl
             border border-[#CBD5E1]
-            bg-white shadow-lg
+          bg-white shadow-lg
           "
         >
           {/* Search */}

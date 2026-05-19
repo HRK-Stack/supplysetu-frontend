@@ -42,10 +42,6 @@ export default function EditProductPage() {
     isLoading: authLoading,
   } = useAuth();
 
-  if (authLoading) {
-    return null;
-  }
-
   /*
     ===================================
     FE-021 CHANGE:
@@ -75,6 +71,10 @@ export default function EditProductPage() {
       productId,
     ],
 
+    enabled:
+      !!productId &&
+      !authLoading,
+
     queryFn: async () => {
       const response =
         await api.get<{
@@ -96,6 +96,10 @@ export default function EditProductPage() {
       return response.data;
     },
   });
+
+  if (authLoading) {
+    return null;
+  }
 
   const product =
     data?.data;

@@ -106,34 +106,37 @@ export default function QuoteTable({
 
         <tbody>
           {quotes.map(
-            (quote) => (
+            (quote) => {
+              console.log("QUOTE:", quote);
+
+              return (
+              
               <tr
                 key={quote.id}
-
-                /*
-                  FE-022 CHANGE:
-                  Click row navigation
-                */
-                className="cursor-pointer border-b border-[var(--table-border)] transition-colors duration-200 hover:bg-[var(--table-row-hover)]"
+                onClick={() => {
+                  window.location.href =
+                    `/quotes/${quote.id}`;
+                }}
+                className="
+                  cursor-pointer
+                  border-b border-(--table-border)
+                  transition-colors duration-200
+                  hover:bg-(--table-row-hover)
+                "
               >
                 <td className="px-5 py-4">
-                  <Link
-                    href={`/quotes/${quote.id}`}
-                    className="font-medium text-[var(--text-primary)]"
-                  >
-                    {
-                      quote.quote_id
-                    }
-                  </Link>
+                  <span className="font-semibold text-(--text-primary)">
+                    {quote.quote_id}
+                  </span>
                 </td>
 
-                <td className="px-5 py-4 text-[var(--text-secondary)]">
+                <td className="px-5 py-4 text-(--text-secondary)">
                   {
                     quote.dealer_name
                   }
                 </td>
 
-                <td className="px-5 py-4 text-[var(--text-secondary)]">
+                <td className="px-5 py-4 text-(--text-secondary)">
                   {
                     quote.sales_rep_name
                   }
@@ -177,8 +180,8 @@ export default function QuoteTable({
                   </span>
                 </td>
               </tr>
-            ),
-          )}
+            );
+          })}
         </tbody>
       </table>
     </div>
