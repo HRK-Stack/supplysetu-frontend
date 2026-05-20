@@ -94,7 +94,7 @@ export default function ProductDetailPage() {
                 VolumeDiscountSlab
             >
         >(
-            `/volume-discount-slabs?product_id=${productId}`,
+            `/products/${productId}/volume-slabs`, 
         );
 
       return response.data;
