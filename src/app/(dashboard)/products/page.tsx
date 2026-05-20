@@ -133,6 +133,33 @@ export default function ProductsPage() {
   const products =
     data?.data ?? [];
 
+
+  const filteredProducts =
+    products.filter((product) => {
+
+      const matchesSearch =
+        !search ||
+        product.name
+          .toLowerCase()
+          .includes(
+            search.toLowerCase(),
+          ) ||
+        product.hsn_code
+          ?.toLowerCase()
+          .includes(
+            search.toLowerCase(),
+          );
+
+      const matchesGst =
+        !gstRate ||
+        String(product.gst_rate) === gstRate;
+
+      return (
+        matchesSearch &&
+        matchesGst
+      );
+    });
+
   /*
     ===================================
     FE-019 CHANGE:
@@ -241,7 +268,7 @@ export default function ProductsPage() {
             </div>
           </div>
         ) : (
-          products.length === 0 ? (
+          filteredProducts.length === 0 ? (
             <div className="p-12 text-center">
                 <p className="text-sm text-(--text-muted)">
                 No products found.
@@ -249,7 +276,7 @@ export default function ProductsPage() {
             </div>
             ) : (
             <ProductTable
-                products={products}
+                products={filteredProducts}
             />
             )
         )}

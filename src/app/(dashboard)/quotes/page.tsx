@@ -29,12 +29,24 @@ import QuoteFilters from "@/components/quotes/QuoteFilters";
 import { useAuth } from "@/hooks/useAuth";
 import type { Quote } from "@/types/quote";
 import type { PaginatedResponse } from "@/types/common";
+import { useAuthStore } from "@/store/authStore";
 
 export default function QuotesPage() {
   const {
     role,
     isLoading: authLoading,
     } = useAuth();
+
+
+  const hydrated =
+    useAuthStore(
+      (state) => state.hydrated,
+    );
+
+  const isAuthenticated =
+    useAuthStore(
+      (state) => state.isAuthenticated,
+    );
 
 
 
@@ -170,25 +182,63 @@ export default function QuotesPage() {
     isLoading,
     error,
   } = useQuery({
+    enabled:
+      hydrated &&
+      isAuthenticated,
+
     queryKey: [
-        "quotes",
-        page,
-        pageSize,
-        status,
-        dealerId,
-        salesRepId,
-        createdFrom,
-        createdTo,
-        role,
+      "quotes",
+      page,
+      pageSize,
+      status,
+      dealerId,
+      salesRepId,
+      createdFrom,
+      createdTo,
+      role,
     ],
 
     queryFn: async () => {
       const response =
         await api.get<
-            PaginatedResponse<Quote>
+          PaginatedResponse<Quote>
         >(
-            `/quotes?${queryParams}`,
+          `/quotes?${queryParams}`,
         );
+
+      return response.data;
+    },
+  });
+
+  const {
+    data: dealersData,
+  } = useQuery({
+    enabled:
+      hydrated &&
+      isAuthenticated,
+
+    queryKey: ["dealers"],
+
+    queryFn: async () => {
+      const response =
+        await api.get("/dealers");
+
+      return response.data;
+    },
+  });
+
+  const {
+    data: usersData,
+  } = useQuery({
+    enabled:
+      hydrated &&
+      isAuthenticated,
+
+    queryKey: ["users"],
+
+    queryFn: async () => {
+      const response =
+        await api.get("/users");
 
       return response.data;
     },
@@ -196,6 +246,12 @@ export default function QuotesPage() {
 
   const quotes =
     data?.data ?? [];
+
+  const dealers =
+    dealersData?.data ?? [];
+
+  const users =
+    usersData?.data ?? [];
 
   /*
     ===================================
@@ -208,7 +264,10 @@ export default function QuotesPage() {
       ? data.meta
       : null;
     
-  if (authLoading) {
+  if (
+    authLoading ||
+    !hydrated
+  ) {
     return null;
   }
 
@@ -354,6 +413,8 @@ export default function QuotesPage() {
         ) : (
             <QuoteTable
             quotes={quotes}
+            dealers={dealers}
+            users={users}
             />
         )}
       </Card>

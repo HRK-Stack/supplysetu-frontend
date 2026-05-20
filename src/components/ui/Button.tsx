@@ -66,8 +66,7 @@ export function Button({
         focus-visible:ring-2
         focus-visible:ring-[#1A3260]/20
 
-        disabled:opacity-50
-        disabled:pointer-events-none
+        disabled:opacity-80
         disabled:cursor-not-allowed
 
         ${variantStyles[variant]}

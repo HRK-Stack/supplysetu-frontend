@@ -77,8 +77,10 @@ const refreshClient = axios.create({
 });
 
 refreshClient.interceptors.request.use(
+  
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     const csrf = getCsrfToken();
+    
     if (!csrf) {
       throw new Error("Missing CSRF token");
     }
@@ -132,6 +134,9 @@ const api: AxiosInstance = axios.create({
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     const token = _authStore?.getToken();
+    
+    console.log("TOKEN:", token);
+    console.log("URL:", config.url);
     if (token) {
       config.headers = config.headers ?? {};
       config.headers.Authorization = `Bearer ${token}`;

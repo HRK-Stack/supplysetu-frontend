@@ -17,6 +17,12 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 
+import type { Dealer }
+  from "@/types/dealer";
+
+import type { User }
+  from "@/types/user";
+
 import api from "@/lib/api";
 
 import { Card } from "@/components/ui/Card";
@@ -53,7 +59,6 @@ import QuoteExpiryBanner from "@/components/quotes/QuoteExpiryBanner";
   Added order converter
   ===================================
 */
-import OrderConverter from "@/components/orders/OrderConverter";
 
 import QuoteItemList from "@/components/quotes/QuoteItemList";
 import RevisionHistory from "@/components/quotes/RevisionHistory";
@@ -110,9 +115,81 @@ export default function QuoteDetailPage() {
       return response.data;
     },
   });
+  const {
+    data: dealersData,
+  } = useQuery({
+    queryKey: ["dealers"],
+
+    queryFn: async () => {
+      const response =
+        await api.get("/dealers");
+
+      return response.data;
+    },
+  });
+
+  const {
+    data: usersData,
+  } = useQuery({
+    queryKey: ["users"],
+
+    queryFn: async () => {
+      const response =
+        await api.get("/users");
+
+      return response.data;
+    },
+  });
+
+  const {
+    data: productsData,
+  } = useQuery({
+    queryKey: ["products"],
+
+    queryFn: async () => {
+      const response =
+        await api.get("/products");
+
+      return response.data;
+    },
+  });
 
   const quote =
     data?.data;
+  
+  const dealers: Dealer[] =
+    dealersData?.data ?? [];
+
+  const users: User[] =
+    usersData?.data ?? [];
+
+  const products =
+    productsData?.data ?? [];
+
+
+  const dealerMap =
+    Object.fromEntries(
+      dealers.map((dealer) => [
+        dealer.id,
+        dealer.name,
+      ]),
+    );
+
+  const userMap =
+    Object.fromEntries(
+      users.map((user) => [
+        user.id,
+        user.name,
+      ]),
+    );
+
+  const productMap =
+    Object.fromEntries(
+      products.map((product: any) => [
+        product.id,
+        product.name,
+      ]),
+    );
 
   /*
     ===================================
@@ -161,6 +238,17 @@ export default function QuoteDetailPage() {
 
       <QuoteHeader
         quote={quote}
+        dealerName={
+          dealerMap[
+            quote.dealer_id
+          ] ?? "-"
+        }
+
+        salesRepName={
+          userMap[
+            quote.sales_rep_id
+          ] ?? "-"
+        }
       />
 
       {/* ===================================
@@ -216,21 +304,6 @@ export default function QuoteDetailPage() {
           Quote To Order Conversion
       =================================== */}
 
-      <OrderConverter
-        quote={quote}
-
-        /*
-          ===================================
-          FE-031 CHANGE:
-          Refetch latest quote
-          after conversion
-          ===================================
-        */
-        onRefresh={() => {
-          void refetch();
-        }}
-      />
-
       {/* ===================================
           FE-028 CHANGE:
           Quote Revision Creator
@@ -260,6 +333,7 @@ export default function QuoteDetailPage() {
           quote.current_revision
             ?.items ?? []
         }
+        productMap={productMap}
       />
 
       {/* ===================================

@@ -15,6 +15,7 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import {
   CheckCircle2,
@@ -128,8 +129,10 @@ export default function QuoteActions({
             await api.post(
               "/orders",
               {
-                quote_id:
-                  quote.id,
+                quote_id: quote.id,
+
+                quote_version:
+                  quote.version,
               },
             );
 
@@ -146,8 +149,8 @@ export default function QuoteActions({
           await api.patch(
             `/quotes/${quote.id}/status`,
             {
-              status:
-                nextStatus,
+              status: nextStatus,
+              version: quote.version,
             },
           );
 
@@ -160,23 +163,37 @@ export default function QuoteActions({
         Success handling
         ===================================
       */
-      onSuccess: async () => {
-        await queryClient.invalidateQueries(
-          {
-            queryKey: [
-              "quote-detail",
-              quote.id,
-            ],
-          },
-        );
+      onSuccess: async (_, variables) => {
+        await queryClient.invalidateQueries({
+          queryKey: [
+            "quote-detail",
+            quote.id,
+          ],
+        });
 
-        await queryClient.invalidateQueries(
-          {
-            queryKey: [
-              "quotes",
-            ],
-          },
-        );
+        await queryClient.invalidateQueries({
+          queryKey: [
+            "quotes",
+          ],
+        });
+
+        /*
+          ===================================
+          SUCCESS TOASTS
+          ===================================
+        */
+        if (
+          variables.action ===
+          "CONVERT_TO_ORDER"
+        ) {
+          toast.success(
+            "Order created successfully",
+          );
+        } else {
+          toast.success(
+            "Quote updated successfully",
+          );
+        }
 
         setPendingAction(
           null,
@@ -195,6 +212,8 @@ export default function QuoteActions({
       onError: (
         error: unknown,
       ) => {
+
+        setPendingAction(null);
         /*
           NEVER auto retry
         */
@@ -517,15 +536,12 @@ export default function QuoteActions({
                     }
 
                     className={
-                      action.variant ===
-                      "success"
-                        ? "border border-[var(--status-success-border)] bg-[var(--status-success-bg)] text-[var(--status-success-text)] hover:bg-[var(--green-light)]"
-                        : action.variant ===
-                          "danger"
-                        ? "border border-[var(--status-danger-border)] bg-[var(--status-danger-bg)] text-[var(--status-danger-text)] hover:bg-[var(--red-light)]"
-                        : action.variant ===
-                          "warning"
-                        ? "border border-[var(--status-warning-border)] bg-[var(--status-warning-bg)] text-[var(--status-warning-text)] hover:bg-[var(--amber-light)]"
+                      action.variant === "success"
+                        ? "bg-green-600! text-white! hover:bg-green-700! border-0"
+                        : action.variant === "danger"
+                        ? "bg-red-600! text-white! hover:bg-red-700! border-0"
+                        : action.variant === "warning"
+                        ? "bg-amber-500! text-white! hover:bg-amber-600! border-0"
                         : ""
                     }
                   >
@@ -572,16 +588,16 @@ export default function QuoteActions({
       {pendingAction && (
         <div className="fixed inset-0 z-[var(--z-modal)] flex items-center justify-center bg-[rgba(15,23,42,0.4)] p-4">
 
-          <div className="w-full max-w-md rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 shadow-[var(--shadow-lg)]">
+          <div className="w-full max-w-md rounded-2xl border border-(--border) bg-(--card) p-6 shadow-(--shadow-lg)">
 
-            <h2 className="font-[var(--font-heading)] text-2xl font-semibold text-[var(--text-primary)]">
+            <h2 className="text-2xl font-semibold text-(--text-primary)">
               Confirm Action
             </h2>
 
-            <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)]">
+            <p className="mt-3 text-sm leading-relaxed text-(--text-secondary)">
               Are you sure you
               want to{" "}
-              <span className="font-semibold text-[var(--text-primary)]">
+              <span className="font-semibold text-(--text-primary)">
                 {
                   pendingAction.label
                 }

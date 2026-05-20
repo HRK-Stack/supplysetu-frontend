@@ -9,9 +9,16 @@
 
 import Link from "next/link";
 import type { Quote } from "@/types/quote";
+import type { Dealer }
+  from "@/types/dealer";
+
+import type { User }
+  from "@/types/user";
 
 interface QuoteTableProps {
   quotes: Quote[];
+  dealers: Dealer[];
+  users: User[];
 }
 /*
   ===================================
@@ -41,7 +48,26 @@ NEGOTIATION:
 
 export default function QuoteTable({
   quotes,
+  dealers,
+  users,
 }: QuoteTableProps) {
+
+
+  const dealerMap =
+    Object.fromEntries(
+      dealers.map((dealer) => [
+        dealer.id,
+        dealer.name,
+      ]),
+    );
+
+  const userMap =
+    Object.fromEntries(
+      users.map((user) => [
+        user.id,
+        user.name,
+      ]),
+    );
 
   /*
     ===================================
@@ -51,12 +77,12 @@ export default function QuoteTable({
   */
   if (quotes.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--bg)] py-16 text-center">
-        <h3 className="font-[var(--font-heading)] text-lg font-semibold text-[var(--text-primary)]">
+      <div className="rounded-2xl border border-dashed border-(--border) bg-(--bg) py-16 text-center">
+        <h3 className="text-lg font-semibold text-(--text-primary)">
           No quotes found
         </h3>
 
-        <p className="mt-2 text-sm text-[var(--text-muted)]">
+        <p className="mt-2 text-sm text-(--text-muted)">
           Try adjusting
           your filters.
         </p>
@@ -72,29 +98,29 @@ export default function QuoteTable({
             Table Header
         =================================== */}
 
-        <thead className="bg-[var(--table-header-bg)]">
-          <tr className="border-b border-[var(--table-border)]">
-            <th scope="col" className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+        <thead className="bg-(--table-header-bg)">
+          <tr className="border-b border-(--table-border)">
+            <th scope="col" className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
               Quote ID
             </th>
 
-            <th scope="col" className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+            <th scope="col" className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
               Dealer
             </th>
 
-            <th scope="col" className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+            <th scope="col" className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
               Sales Rep
             </th>
 
-            <th scope="col" className="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+            <th scope="col" className="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
               Status
             </th>
 
-            <th scope="col" className="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+            <th scope="col" className="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
               Created At
             </th>
 
-            <th scope="col" className="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+            <th scope="col" className="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-(--text-muted)">
               Revision Count
             </th>
           </tr>
@@ -125,20 +151,20 @@ export default function QuoteTable({
                 "
               >
                 <td className="px-5 py-4">
-                  <span className="font-semibold text-(--text-primary)">
-                    {quote.quote_id}
+                  <span className="font-normal text-(--text-primary)">
+                    {quote.id.slice(0, 8)}
                   </span>
                 </td>
 
                 <td className="px-5 py-4 text-(--text-secondary)">
                   {
-                    quote.dealer_name
+                    dealerMap[quote.dealer_id] ?? "-"
                   }
                 </td>
 
                 <td className="px-5 py-4 text-(--text-secondary)">
                   {
-                    quote.sales_rep_name
+                    userMap[quote.sales_rep_id] ?? "-"
                   }
                 </td>
 
@@ -153,7 +179,7 @@ export default function QuoteTable({
                       statusClasses[
                         quote.status as keyof typeof statusClasses
                         ] ??
-                        "border border-[var(--border)] bg-[var(--bg)] text-[var(--text-primary)]"
+                        "border border-(--border) bg-(--bg) text-(--text-primary)"
                     }`}
                   >
                     {
@@ -162,7 +188,7 @@ export default function QuoteTable({
                   </span>
                 </td>
 
-                <td className="px-5 py-4 text-center text-[var(--text-secondary)]">
+                <td className="px-5 py-4 text-center text-(--text-secondary)">
                   {new Date(
                     quote.created_at,
                   ).toLocaleDateString(
@@ -171,7 +197,7 @@ export default function QuoteTable({
                 </td>
 
                 <td className="px-5 py-4 text-center">
-                  <span className="rounded-lg bg-[var(--table-header-bg)] px-3 py-1 text-xs font-semibold text-[var(--text-primary)]">
+                  <span className="rounded-lg bg-(--table-header-bg) px-3 py-1 text-xs font-semibold text-(--text-primary)">
                     Rev{" "}
                     {
                       quote.current_revision

@@ -14,10 +14,15 @@ import type { QuoteItem } from "@/types/quote";
 
 interface QuoteItemListProps {
   items: QuoteItem[];
+  productMap: Record<
+    string,
+    string
+  >;
 }
 
 export default function QuoteItemList({
   items,
+  productMap,
 }: QuoteItemListProps) {
         const pricingFields = [
         {
@@ -131,7 +136,9 @@ export default function QuoteItemList({
                       <div>
                         <h3 className="font-semibold text-[var(--text-primary)]">
                           {
-                            item.product_id
+                            productMap[
+                              item.product_id
+                            ] ?? item.product_id
                           }
                         </h3>
 
@@ -168,9 +175,10 @@ export default function QuoteItemList({
 
                     <h2 className="mt-1 text-2xl font-bold text-[var(--navy)]">
                       {formatPaise(
-                        item.pricing_snapshot
-                          .final_price_with_gst *
-                        item.quantity
+                        (
+                          item.pricing_snapshot
+                            ?.final_unit_price ?? 0
+                        ) * item.quantity
                       )}
                     </h2>
                   </div>

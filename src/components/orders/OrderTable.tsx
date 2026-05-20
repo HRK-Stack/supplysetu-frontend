@@ -183,19 +183,19 @@ export default function OrderTable({
 
                     {/* Order ID */}
 
-                    <td className="px-5 py-5 font-medium text-[var(--navy)]">
+                    <td className="px-5 py-5 font-medium text-(--navy)">
 
                       {
-                        order.order_number
+                        order.id.slice(0, 8)
                       }
                     </td>
 
                     {/* Quote ID */}
 
-                    <td className="px-5 py-5 text-sm text-[var(--text-primary)]">
+                    <td className="px-5 py-5 font-medium text-(--text-primary)">
 
                       {
-                        order.quote_number
+                        order.quote_id.slice(0, 8)
                       }
                     </td>
 
@@ -205,13 +205,13 @@ export default function OrderTable({
 
                       <div>
 
-                        <p className="font-medium text-[var(--text-primary)]">
+                        <p className="font-medium text-(--text-primary)">
                           {
                             order.dealer_name
                           }
                         </p>
 
-                        <p className="mt-1 text-xs text-[var(--text-secondary)]">
+                        <p className="mt-1 text-xs text-(--text-secondary)">
                           {
                             order.dealer_gstin
                           }
@@ -223,7 +223,7 @@ export default function OrderTable({
 
                     <td className="px-5 py-5">
 
-                      <span className="rounded-full border border-[var(--status-info-border)] bg-[var(--status-info-bg)] px-3 py-1 text-xs font-semibold text-[var(--status-info-text)]">
+                      <span className="rounded-full border border-(--status-info-border) bg-(--status-info-bg) px-3 py-1 text-xs font-semibold text-(--status-info-text)">
 
                         {
                           order.status
@@ -249,7 +249,7 @@ export default function OrderTable({
 
                     {/* Created */}
 
-                    <td className="px-5 py-5 text-sm text-[var(--text-secondary)]">
+                    <td className="px-5 py-5 font-medium text-(--text-secondary)">
 
                       {formatDate(
                         order.created_at,

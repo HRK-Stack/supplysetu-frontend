@@ -19,6 +19,8 @@ import type { Quote } from "@/types/quote";
 
 interface QuoteHeaderProps {
   quote: Quote;
+  dealerName: string;
+  salesRepName: string;
 }
 
 /*
@@ -49,6 +51,8 @@ const statusClasses = {
 
 export default function QuoteHeader({
   quote,
+  dealerName,
+  salesRepName,
 }: QuoteHeaderProps) {
 
   /*
@@ -154,7 +158,7 @@ export default function QuoteHeader({
 
                 <p className="mt-1 font-semibold text-[var(--text-primary)]">
                   {
-                    quote.dealer_name
+                    dealerName
                   }
                 </p>
               </div>
@@ -169,7 +173,7 @@ export default function QuoteHeader({
 
                   <p className="font-semibold text-[var(--text-primary)]">
                     {
-                      quote.sales_rep_name
+                      salesRepName
                     }
                   </p>
                 </div>

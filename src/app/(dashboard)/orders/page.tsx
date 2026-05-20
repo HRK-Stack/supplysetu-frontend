@@ -18,6 +18,11 @@ import {
 import {
   useQuery,
 } from "@tanstack/react-query";
+import type { Dealer }
+  from "@/types/dealer";
+
+import type { Quote }
+  from "@/types/quote";
 
 import api from "@/lib/api";
 
@@ -136,15 +141,85 @@ export default function OrdersPage() {
     },
   });
 
+  const {
+    data: dealersData,
+  } = useQuery({
+    queryKey: ["dealers"],
+
+    queryFn: async () => {
+      const response =
+        await api.get<
+          PaginatedResponse<Dealer>
+        >("/dealers");
+
+      return response.data;
+    },
+  });
+
+  const {
+    data: quotesData,
+  } = useQuery({
+    queryKey: ["quotes"],
+
+    queryFn: async () => {
+      const response =
+        await api.get<
+          PaginatedResponse<Quote>
+        >("/quotes");
+
+      return response.data;
+    },
+  });
+
   const orders =
     data?.success
       ? data.data
       : [];
 
+  const dealers =
+    dealersData?.data ?? [];
+
+  const quotes =
+    quotesData?.data ?? [];
+
+  const dealerMap =
+    Object.fromEntries(
+      dealers.map((dealer) => [
+        dealer.id,
+        dealer.name,
+      ]),
+    );
+
+  const quoteMap =
+    Object.fromEntries(
+      quotes.map((quote) => [
+        quote.id,
+        quote.quote_id,
+      ]),
+    );
+
+  const enrichedOrders =
+    orders.map((order) => ({
+      ...order,
+
+      dealer_name:
+        dealerMap[
+          order.dealer_id
+        ] ?? "-",
+
+      quote_number:
+        quoteMap[
+          order.quote_id
+        ] ?? "-",
+    }));
+
   const meta =
     data?.success
       ? data.meta
       : null;
+
+
+  console.log("ORDERS API:", data);
 
   return (
     <div className="space-y-6">
@@ -238,7 +313,7 @@ export default function OrdersPage() {
       =================================== */}
 
       <OrderTable
-        orders={orders}
+        orders={enrichedOrders}
 
         isLoading={
           isLoading

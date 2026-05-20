@@ -166,7 +166,7 @@ export function Sidebar() {
           bg-[#0F1F3D] text-white
           transition-transform duration-300
 
-          md:static md:translate-x-0
+          md:fixed md:translate-x-0
 
           ${
             open

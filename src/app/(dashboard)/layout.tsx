@@ -28,7 +28,7 @@ export default function DashboardLayout({
         <Sidebar />
 
         {/* Content */}
-        <div className="flex min-h-screen min-w-0 flex-1 flex-col">
+        <div className="ml-0 flex min-h-screen min-w-0 flex-1 flex-col md:ml-65">
           {/* Topbar */}
           <Topbar />
 

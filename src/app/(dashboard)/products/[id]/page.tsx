@@ -216,7 +216,7 @@ export default function ProductDetailPage() {
           Volume Discount Slabs
       =================================== */}
 
-      /*<Card className="overflow-hidden rounded-2xl border border-(--border) bg-(--card) shadow-sm">
+      <Card className="overflow-hidden rounded-2xl border border-(--border) bg-(--card) shadow-sm">
         <div className="border-b border-(--table-border) px-6 py-5">
           <h2 className="text-xl font-semibold text-(--text-primary)">
             Volume Discount
@@ -252,8 +252,9 @@ export default function ProductDetailPage() {
             <div className="p-6">
                 <div className="rounded-2xl border border-(--status-danger-border) bg-(--status-danger-bg) p-4">
                     <p className="text-sm text-(--status-danger-text)">
-                        Failed to load
-                        discount slabs.
+                        No volume
+                        discount slabs
+                        configured.
                     </p>
                 </div>
             </div>
@@ -345,7 +346,7 @@ export default function ProductDetailPage() {
             </table>
           </div>
         )}
-      </Card>*/
+      </Card>
     </div>
   );
 }

@@ -4,6 +4,9 @@ import React from "react";
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 import { Providers } from "./providers";
+import AuthBootstrap
+  from "@/components/auth/AuthBootstrap";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "SupplySetu",
@@ -18,7 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <AuthBootstrap />
         <Providers>{children}</Providers>
+        <Toaster
+          position="top-right"
+          richColors
+        />
       </body>
     </html>
   );
