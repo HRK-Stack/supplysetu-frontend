@@ -347,6 +347,7 @@ export default function AuditLogTable({
                                     ),
                                 )}
                                 </div>
+                                </div>
 
                             {/* New Value */}
 
